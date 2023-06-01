@@ -1,0 +1,33 @@
+---
+title: 'RunPython 을 이용한 마이그레이션 수정'
+authors: [jake]
+tags: [django, db, migrate, migration]
+---
+
+## 🐥 예시
+
+```python
+from django.db import migrations
+
+
+def migration_run_python_function(apps, schema_editor):
+    # 모델 호출
+    User = apps.get_model('users', 'User')
+    # 쿼리문 사용 가능
+    User.objects.filter(name='장승국')
+    """
+    단, 추가로 생성한 property 나 오버라이딩된 Manager, QuerySet 은
+    해당 파일내에서 새로 작성해줘야 함
+    """
+
+
+class Migration(migrations.Migration):
+
+    dependencies = [
+        ('users', '0001_auto...'),
+    ]
+
+    operations = [
+        migrations.RunPython(migration_run_python_function)
+    ]
+```

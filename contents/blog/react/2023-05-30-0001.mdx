@@ -1,0 +1,66 @@
+---
+title: 'JWT 를 이용한 사용자 인증 처리'
+authors: [jake]
+tags: [js, jwt, authentication]
+---
+
+## 토큰 저장 및 검증/재발급 등.
+
+---
+
+```go
+import axios from 'axios';
+
+const BASE_HOST = process.env.VUE_APP_API;
+
+export function setToken(tokens) {
+  // 엑세스 토큰 저장
+  localStorage.setItem('access', JSON.stringify({
+      value: tokens.access,
+      expire: new Date().getTime() + (1000 * 59 * 5)
+  }));
+  // 리프레시 토큰 저장
+  if (tokens.refresh != null) {
+    localStorage.setItem('refresh', JSON.stringify({
+      value: tokens.refresh,
+      expire: new Date().getTime() + (1000 * 60 * 60 * 24 * 14)
+  }));
+  }
+}
+
+export async function getToken(tokenType) {
+  // 토큰 조회
+  var object = localStorage.getItem(tokenType);
+  // 토큰이 없는 경우 바로 빠져나가기
+  if (object == null) {
+    return null;
+  }
+  // 토큰 변환
+  var tokenObject = JSON.parse(object);
+  var token = tokenObject.value;
+  var expire = tokenObject.expire;
+  var now = new Date().getTime();
+  // 토큰 유효기간 확인
+  if (expire < now) {
+    if (tokenType === 'access') {
+      // 토큰 재발급
+      var refresh = await getToken('refresh');
+      var accessToken = await axios.post(BASE_HOST + 'token/refresh/', {
+        refresh
+      }).then(res => {
+        setToken(res.data);
+        return res.data.access
+      }).catch(err => {
+        console.log(err);
+      });
+      return accessToken;
+    } else if (tokenType === 'refresh') {
+      // 로그인 페이지로 이동
+      localStorage.clear();
+      window.location.href = '/';
+    }
+  } else {
+    return token;
+  }
+}
+```

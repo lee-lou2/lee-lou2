@@ -1,0 +1,45 @@
+---
+title: 'Lambda 예시 외부 Post http Request 리시브 함수 생성'
+authors: [jake]
+tags: [aws, lambda, http]
+---
+
+```python
+import json
+# 이 전 게시물에서 외부 라이브러리 추가하는 방법 확인
+import requests
+import logging
+
+# 로그
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
+
+# 전역 변수
+API_URL = ""
+
+def lambda_handler(event, context):
+    """
+		함수 핸들러
+    """
+    # 기본 오류 데이터
+    error_message = None
+    status_code = 400
+    
+    # 필수 파라미터 존재 여부 확인
+    if list(event.keys()) != ["name", "phone"]:
+        error_message = "Required Parameter is not present"
+    
+    if error_message:
+        logger.error(f"Failed - {error_message}")
+        return {"statusCode": status_code, "body": error_message}
+    
+    # 데이터 요청
+    resp = requests.post(API_URL, json=event)
+    
+    # 로그 기록
+    logger.info(f"Success - {resp.status_code} - name='{event.get('name')}', signed_url='{event.get('phone')}'")
+    return {
+        'statusCode': resp.status_code,
+        'body': json.dumps(resp.json()) if resp.status_code == 200 else resp.content
+    }
+```

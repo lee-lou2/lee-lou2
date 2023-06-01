@@ -1,0 +1,20 @@
+---
+title: 'MySql Isolation Level 설명'
+authors: [jake]
+tags: [rdbms, mysql]
+---
+
+## ⭐ Isolation Level 종류
+
+| 키워드 | 설명 |
+| --- | --- |
+| READ COMMITTED | • 성능을 위하여, transaction간의 보호를 어느정도 유연하게 가져가는 level<br /> • A transaction은 다른 B transaction이 commit하지 않은 데이터는 볼 수 없으나, B transaction이 A transaction이 만들어진 후, commit 했다면 해당 데이터를 읽을 수 있음<br /> • update, delete를 수행하는 transaction은 다른 transaction이 있다면 기다려야함<br /> • select는 기다리지 않고 바로 수행함<br /> • 잘못된 데이터(bad data)는 select하지 않지만, 시간에 따라 동일한 데이터가 나오지 않을 수 있음 |
+| READ UNCOMMITTED | • transaction간의 보호를 최소화한 isolation level<br /> • query는 다른 transaction 을 기다리지 않는 전략을 취함<br /> • 다른 transaction에 의해, 커밋되지 않은 데이터를 포함할 수 있음<br /> • 사용에 매우 주의를 요함<br /> • 보통 insert, update, delete를 하지 않는 경우에만 사용 |
+| REPEATABLE READ (Default) | • 쿼리된 row가 다른 transaction에 의해 변경되는 것을 방지<br /> • 한 transcation 내에서는, transaction이 시작된 상태의 snap shot 데이터를 사용<br /> • non-repeatable read는 막지만, phantom read는 막지않음 |
+| SERIALIZABLE | • 가장 강력한 lock 전략을 사용<br /> • 현재 transaction이 읽혀진 데이터에 어떠한 insert나 변경도 허용하지 않음<br /> • 동일한 쿼리는 계속해서 같은 결과를 얻을 수 있음<br /> • 현재 트랜잭션이 시작된 이후 다른 트랜잭션에 의해 커밋된 데이터를 변경하려고 하면 현재 트랜잭션이 대기<br /> • SQL이 정한 표준이나, 실제로 이 정도로 strict할 필요는 없기 때문에 repeatable read를 default로 사용 |
+
+> phantom read:
+> 
+> - 하나의 transaction 안에서 첫 query와 그 다음 동일한 쿼리의 결과가 다른 경우.
+> - non-repeatable read와 달리, 첫 query의 row에 lock을 걸어도 다른 row가 수정되어 두번 째 query의 조건에 만족될 수 있기 때문에 방지하기 어려움
+> - isolation level 중에서는 **serializable read**에서만 방지됨

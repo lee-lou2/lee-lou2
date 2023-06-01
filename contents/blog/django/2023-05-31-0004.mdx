@@ -1,0 +1,46 @@
+---
+title: '데이터베이스 단방향 암호화 및 암호화 데이터 검색'
+authors: [jake]
+tags: [django, db, encrypt]
+---
+
+## ⭐ 키워드
+
+| 키워드 | 설명 |
+| --- | --- |
+| Encrypted[Type]Field | 단방향 암호화를 통해 데이터 저장(이 필드만으론 데이터 검색 불가) |
+| SearchField | filter를 통해 검색할 수 있는 기능을 제공(단, 완전히 일치하는 데이터만 검색 가능) |
+
+## 🐥 예시(모델링)
+
+```python
+class UserModel(models.Model):
+    # 암호화하여 데이터베이스에 저장
+    _name = fields.EncryptedCharField(
+        max_length=50,
+        verbose_name=_('name'),
+    )
+    # filter 등의 검색시 사용(단, 완전히 일치하는 데이터만 검색 가능)
+    name = fields.SearchField(
+        hash_key=settings.ENCRYPTION_KEY,
+        encrypted_field_name='_name',
+        verbose_name=_('name'),
+    )
+```
+
+> 주의 사항 : hash_key 가 일치하지 않을 경우 오류 반환
+> 
+
+## 🐥 예시(데이터 조회)
+
+```python
+UserModel.objects.create(name='장승국')
+# 데이터 생성
+
+user = UserModel.objects.filter(name='장승국')
+# 성공 - 데이터 조회
+
+user = UserModel.objects.filter(name__startswith='장')
+user = UserModel.objects.filter(name__contains='승국')
+# 실패 - 데이터 조회
+```

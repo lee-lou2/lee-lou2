@@ -1,0 +1,57 @@
+{
+  "name": "docs",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "docusaurus": "docusaurus",
+    "start": "docusaurus start",
+    "build": "docusaurus build",
+    "swizzle": "docusaurus swizzle",
+    "deploy": "docusaurus deploy",
+    "clear": "docusaurus clear",
+    "serve": "docusaurus serve",
+    "write-translations": "docusaurus write-translations",
+    "write-heading-ids": "docusaurus write-heading-ids"
+  },
+  "dependencies": {
+    "@docusaurus/core": "2.4.0",
+    "@docusaurus/plugin-google-gtag": "^2.4.1",
+    "@docusaurus/plugin-google-tag-manager": "^2.4.1",
+    "@docusaurus/plugin-pwa": "^2.4.0",
+    "@docusaurus/plugin-sitemap": "^2.4.1",
+    "@docusaurus/preset-classic": "2.4.0",
+    "@docusaurus/theme-live-codeblock": "^2.4.0",
+    "@docusaurus/theme-search-algolia": "^2.4.1",
+    "@egjs/react-flicking": "^4.10.9",
+    "@emotion/react": "^11.10.8",
+    "@emotion/styled": "^11.10.8",
+    "@mdx-js/react": "^1.6.22",
+    "@mui/material": "^5.12.3",
+    "clsx": "^1.2.1",
+    "docusaurus-lunr-search": "^2.3.2",
+    "firebase": "^9.21.0",
+    "prism-react-renderer": "^1.3.5",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-markdown": "^8.0.7"
+  },
+  "devDependencies": {
+    "@docusaurus/module-type-aliases": "2.4.0",
+    "dotenv": "^16.1.3"
+  },
+  "browserslist": {
+    "production": [
+      ">0.5%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "engines": {
+    "node": ">=16.14"
+  }
+}

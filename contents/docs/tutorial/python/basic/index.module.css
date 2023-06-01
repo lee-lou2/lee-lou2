@@ -1,0 +1,18 @@
+@media (min-width: 768px) {
+    .installLayout {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .installLayoutLeft {
+        width: 250px;
+        min-width: 250px;
+        margin: 10px;
+    }
+
+    .installLayoutRight {
+        width: 100%;
+        margin: 10px;
+    }
+}

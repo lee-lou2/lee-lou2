@@ -1,0 +1,51 @@
+---
+title: 'S3 퍼블릭 버킷 생성'
+authors: [jake]
+tags: [aws, s3, bucket]
+---
+
+### 버킷 생성.
+
+---
+
+- S3 페이지로 이동
+
+![img](./img/006/1.png)
+
+- 버킷 만들기
+    - 버킷 이름 설정
+    - 모든 퍼블릭 엑세스 차단 해제
+
+![img](./img/006/2.png)
+
+![img](./img/006/3.png)
+
+![img](./img/006/4.png)
+
+![img](./img/006/5.png)
+
+- 버킷 내부로 이동 후 [권한] > [편집] 클릭
+
+![img](./img/006/6.png)
+
+- 정책 생성기 클릭(https://awspolicygen.s3.amazonaws.com/policygen.html)
+
+![img](./img/006/7.png)
+
+- 버킷 관련 정보 작성
+    - Select Type of Policy : S3 선택
+    - Effect : Allow
+    - Principal : * (전체)
+    - AWS Service : GetObject (컨텐트 조회 권한)
+    - ARN : Amazon 리소스 이름(ARN)
+        - arn:aws:s3:::버킷이름
+        - 버킷 이름에 “/*” 를 꼭 붙여줘야함
+        - ⇒ arn:aws:s3:::버킷이름/*
+
+![img](./img/006/8.png)
+
+- 생성을 누르면 아래와 같이 JSON 형태로 값이 반환
+
+![img](./img/006/9.png)
+
+- 이 값을 복사해서 S3 에 적용해주면 끝

@@ -1,0 +1,154 @@
+---
+title: 'gRPC 네트워크 연동'
+authors: [jake]
+tags: [go, go-routine, thread]
+---
+
+## ⭐ 키워드
+
+| 키워드 | 설명 |
+| --- | --- |
+| gRPC | Google에서 개발한 RPC 통신 서비스 |
+| Connect | Java, Python, Go 등 다른 언어와 연동 가능 |
+
+## 🐥 예시
+
+```go
+// 서버
+package rpc
+
+import (
+	"fmt"
+	"google.golang.org/grpc"
+	pb "knock/connect/rpc/proto"
+	"log"
+	"net"
+)
+
+type server struct {
+	/* RPC 서버 */
+	pb.UnimplementedGreeterServer
+}
+
+func Run() {
+	/* RPC 실행 */
+	listen, _ := net.Listen("tcp", fmt.Sprintf(":%d", 50051))
+	rpc := grpc.NewServer()
+	pb.RegisterGreeterServer(rpc, &server{})
+	log.Printf("RPC 서버 실행 되었습니다")
+	if err := rpc.Serve(listen); err != nil {
+		log.Fatalf("RPC 연결 실패, 오류 내용 : %v", err)
+	}
+}
+```
+
+```go
+// Proto
+syntax = "proto3";
+
+option go_package = "knock/connect/rpc/proto";
+
+package knock;
+
+service Greeter {
+  rpc Notification (NotificationRequest) returns (NotificationResponse) {}
+  rpc Location (LocationRequest) returns (LocationResponse) {}
+  rpc AESEncrypt (AESEncryptRequest) returns (AESEncryptResponse) {}
+  rpc AESDecrypt (AESDecryptRequest) returns (AESDecryptResponse) {}
+  rpc RSAKeySet (RSAKeySetRequest) returns (RSAKeySetResponse) {}
+}
+
+enum Application {
+  NULL = 0;
+  EMAIL = 1;
+  SMS = 2;
+  SLACK = 3;
+  PUSH = 4;
+}
+
+message NotificationRequest {
+  Application app = 1;
+  string body = 2;
+}
+
+message NotificationResponse {
+  bool isCompleted = 1;
+  int32 statusCode = 2;
+  string Error = 3;
+}
+
+message LocationRequest {
+  string ip = 1;
+}
+
+message LocationResponse {
+  string location = 1;
+  int32 statusCode = 2;
+  string Error = 3;
+}
+
+message AESEncryptRequest {
+  string key = 1;
+  string text = 2;
+}
+
+message AESEncryptResponse {
+  string encryptedText = 1;
+  int32 statusCode = 2;
+  string Error = 3;
+}
+
+message AESDecryptRequest {
+  string key = 1;
+  string encryptedText = 2;
+}
+
+message AESDecryptResponse {
+  string planText = 1;
+  int32 statusCode = 2;
+  string Error = 3;
+}
+
+message RSAKeySetRequest {}
+
+message RSAKeySetResponse {
+  string publicKey = 1;
+  string privateKey = 2;
+  string expiredAt = 3;
+  int32 statusCode = 4;
+  string Error = 5;
+}
+```
+
+```go
+// Fuctions
+package rpc
+
+import (
+	"context"
+	"encoding/json"
+	"knock/apps"
+	"knock/apps/location/ip"
+	pb "knock/connect/rpc/proto"
+	"knock/core/security"
+	"knock/models"
+	"log"
+)
+
+func (s *server) Notification(ctx context.Context, in *pb.NotificationRequest) (*pb.NotificationResponse, error) {
+	/* 메세지 전송 */
+	log.Println("[RPC Request] Application - Notification")
+	var input models.RequestBody
+
+	// 데이터 조회
+	body := in.GetBody()
+	if err := json.Unmarshal([]byte(body), &input); err != nil {
+		log.Println("데이터 변환간 오류 발생, 오류 내용 : " + err.Error())
+		return &pb.NotificationResponse{StatusCode: 500, Error: err.Error()}, nil
+	}
+	// 어플리케이션 전송
+	input.App = int(in.GetApp())
+	apps.AppRouter(input)
+	return &pb.NotificationResponse{StatusCode: 200, IsCompleted: true}, nil
+}
+```

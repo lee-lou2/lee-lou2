@@ -1,0 +1,93 @@
+---
+title: 제어문과 함수
+sidebar_label: 2. 제어문과 함수
+description: 고(GO) 의 제어문과 함수에 대한 설명
+sidebar_position: 2
+---
+
+# 제어문과 함수
+
+고 언어에서 제어문은 C 언어와 유사합니다. `if`, `for`, `switch` 등의 키워드를 사용하여 제어문을 작성할 수 있습니다.
+
+## if 문
+
+`if` 문은 다음과 같은 형식으로 작성합니다.
+
+```go
+if 조건식 {
+    // 조건식이 참일 때 실행되는 코드
+} else {
+    // 조건식이 거짓일 때 실행되는 코드
+}
+```
+
+예를 들어, `a`가 10보다 크면 "a is greater than 10"을 출력하고, 그렇지 않으면 "a is less than or equal to 10"을 출력하는 코드는 다음과 같습니다.
+
+```go
+if a > 10 {
+    fmt.Println("a is greater than 10")
+} else {
+    fmt.Println("a is less than or equal to 10")
+}
+```
+
+## for 문
+
+`for` 문은 다음과 같은 형식으로 작성합니다.
+
+```go
+for 초기식; 조건식; 후처리식 {
+    // 조건식이 참일 때 실행되는 코드
+}
+```
+
+예를 들어, 0부터 9까지의 숫자를 출력하는 코드는 다음과 같습니다.
+
+```go
+for i := 0; i < 10; i++ {
+    fmt.Println(i)
+}
+```
+
+## switch 문
+
+`switch` 문은 다음과 같은 형식으로 작성합니다.
+
+```go
+switch 변수 {
+case 값1:
+    // 값1일 때 실행되는 코드
+case 값2:
+    // 값2일 때 실행되는 코드
+default:
+    // 모든 case에 해당하지 않을 때 실행되는 코드
+}
+```
+
+예를 들어, `a`가 1이면 "a is 1", 2이면 "a is 2", 그 외의 값이면 "a is neither 1 nor 2"를 출력하는 코드는 다음과 같습니다.
+
+```go
+switch a {
+case 1:
+    fmt.Println("a is 1")
+case 2:
+    fmt.Println("a is 2")
+default:
+    fmt.Println("a is neither 1 nor 2")
+}
+```
+
+고 언어에서 함수를 정의할 때에는 `func` 키워드를 사용합니다. 함수의 반환값은 함수의 매개변수 뒤에 타입을 지정하여 정의할 수 있습니다.
+
+```go
+func add(a int, b int) int {
+    return a + b
+}
+```
+
+위 코드는 `a`와 `b`라는 두 개의 정수형 매개변수를 받아서 더한 값을 반환하는 함수입니다. 함수를 호출할 때에는 다음과 같이 작성합니다.
+
+```go
+result := add(1, 2)
+fmt.Println(result) // 3
+```

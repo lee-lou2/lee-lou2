@@ -1,0 +1,35 @@
+---
+title: 'M1 라이브러리 설치'
+authors: [jake]
+tags: [m1, library]
+---
+
+## 🐥 예시 - Pip
+
+```python
+# psycopg2 라이브러리 설치
+brew install postgresql
+pg_ctl -D /usr/local/var/postgres start
+pip install psycopg2-binary
+
+# mysqlclient
+brew install mysql-client
+pip install mysqlclient
+
+# grpcio
+GRPC_PYTHON_BUILD_SYSTEM_OPENSSL=1 GRPC_PYTHON_BUILD_SYSTEM_ZLIB=1 python -m pip install grpcio
+```
+
+## 🐥 예시 - Pyenv
+
+```python
+arch -x86_64 pyenv install 3.7.4
+```
+
+## 🐥 예시 - 기타 오류
+
+```python
+# Homebrew
+# Homebrew 설치된 곳이 /usr/local 이면 install 시 오류 발생(/opt/homebrew 로 이동 시켜줘야 한다)
+# homebrew config 로 확인 가능
+```

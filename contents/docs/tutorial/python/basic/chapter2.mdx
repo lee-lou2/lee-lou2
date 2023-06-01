@@ -1,0 +1,242 @@
+---
+title: 설정
+sidebar_label: 2. Django 설정
+description: Django 설정
+sidebar_position: 2
+---
+
+import styles from './index.module.css'
+
+<div className={styles.installLayout}>
+<div className={styles.installLayoutLeft}>
+
+## Django 프로젝트 생성
+
+</div>
+<div className={styles.installLayoutRight}>
+
+### 1. Django 설치
+1. pip install django
+### 2. 프로젝트 생성
+1. django-admin stratproject {project_name} [Option] .
+    1. project_name = 원하는 프로젝트명
+### 3. 앱 생성
+1. python manage.py startapp {app_name}
+    1. app_name = 원하는 앱명
+2. settings.py 의 INSTALLED_APPS 에 추가
+
+</div>
+</div>
+
+---
+
+<div className={styles.installLayout}>
+<div className={styles.installLayoutLeft}>
+
+## 기본 폴더 구조
+
+</div>
+<div className={styles.installLayoutRight}>
+
+### 1. `project config`(settings) 폴더
+1. settings.py : 프로젝트 전체 설정 관리
+2. asgi.py : asgi 사용시 설정
+3. wsgi.py : wsgi 사용시 설정
+4. urls.py : 기본 라우터
+### 2. `app` 폴더
+1. apps.py : app 기본 설정
+2. admin.py : admin 페이지 구성
+3. tests.py : test 코드
+4. models.py : 모델링
+5. views.py : API 구성
+6. migrations 폴더 : model 마이그레이션시 사용
+
+*참고*
+
+```python
+Django 프레임워크에서는 WSGI(Web Server Gateway Interface)와 ASGI(Application Server Gateway Interface) 두 가지 프로토콜을 지원합니다. 이 두 프로토콜은 각각 다음과 같은 특징을 가지고 있습니다.
+
+# 비교
+**WSGI:**
+
+파이썬 웹 어플리케이션과 웹 서버 사이의 표준 인터페이스를 정의한 프로토콜입니다.
+동기적인 방식으로 요청과 응답을 처리합니다.
+WSGI는 파이썬이 제공하는 threading 모듈을 이용하여 멀티스레드를 지원합니다.
+Django 1.0 버전부터 지원합니다.
+
+**ASGI:**
+
+비동기 웹 서버와 웹 어플리케이션 사이의 인터페이스를 정의한 프로토콜입니다.
+비동기적인 방식으로 요청과 응답을 처리합니다.
+ASGI는 asyncio 모듈을 이용하여 비동기 IO를 처리하며, 멀티스레드나 멀티프로세싱보다 더 많은 처리량을 처리할 수 있습니다.
+Django 3.0 버전부터 지원합니다.
+
+# 정리
+따라서, ASGI는 WSGI보다 더욱 효율적인 비동기 IO 처리를 지원하므로, WebSocket, Server-Sent Events, HTTP/2 등과 같이 대용량의 동시 접속을 처리해야 하는 경우에 적합합니다. 하지만, 대부분의 웹 어플리케이션에서는 WSGI를 사용하여 충분히 처리할 수 있으며, Django 애플리케이션의 경우에도 WSGI를 사용하는 것이 보다 안정적인 선택이 될 수 있습니다.
+```
+
+</div>
+</div>
+
+---
+
+<div className={styles.installLayout}>
+<div className={styles.installLayoutLeft}>
+
+## DRF 설정
+
+</div>
+<div className={styles.installLayoutRight}>
+
+### 1. DRF 설치
+1. pip install djangorestframework
+### 2. settings 설정
+
+```python
+INSTALLED_APPS = [
+    ... 'rest_framework',
+]
+```
+
+    1. settings Config
+        1. [https://www.django-rest-framework.org/api-guide/settings/](https://www.django-rest-framework.org/api-guide/settings/)
+
+</div>
+</div>
+
+---
+
+<div className={styles.installLayout}>
+<div className={styles.installLayoutLeft}>
+
+## 그 외 설정들
+
+</div>
+<div className={styles.installLayoutRight}>
+
+1. ALLOWED_HOSTS : 허용 호스트
+2. DEBUG : 디버깅 모드 실행 여부
+3. INSTALLED_APPS : 앱 등록
+
+</div>
+</div>
+
+---
+
+<div className={styles.installLayout}>
+<div className={styles.installLayoutLeft}>
+
+## 미들웨어 활용
+
+</div>
+<div className={styles.installLayoutRight}>
+
+### - 흐름
+1. *[사용자]*
+2. **미들웨어**
+    1. request 설정
+    2. user 확인/설정
+3. 코드…
+4. **미들웨어**
+    1. 결과 값 정리
+5. *[사용자]*
+### - 커스텀 미들웨어 : **재귀함수 구조**
+
+```python
+class SimpleMiddleware:
+    def __init__(self, get_response):
+        self.get_response = get_response
+        # One-time configuration and initialization.
+
+    def __call__(self, request):
+        # Code to be executed for each request before
+        # the view (and later middleware) are called.
+
+        response = self.get_response(request)
+
+        # Code to be executed for each request/response after
+        # the view is called.
+
+        return response
+```
+
+### - 미들웨어 추가
+
+```python
+MIDDLEWARE = [
+    'django.middleware.security.SecurityMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'CustomMiddleware'
+]
+```
+
+</div>
+</div>
+
+---
+
+<div className={styles.installLayout}>
+<div className={styles.installLayoutLeft}>
+
+## 데이터베이스 라우팅
+
+</div>
+<div className={styles.installLayoutRight}>
+
+```python
+class DefaultRouter:
+    """데이터베이스 라우터"""    
+    
+    route_app_labels = list(set(settings.DATABASES.keys()) - {"default", "slave"})
+
+    def db_for_read(self, model, **hints):
+        """읽기에서 사용할 데이터베이스"""        
+        
+        # 1. 기본 라우팅        
+        if model._meta.app_label in self.route_app_labels:
+            return model._meta.app_label
+
+        # 2. 특정 API만 slave 적용, 그 외 None 처리        
+        return getattr(thread_local, "DB_FOR_READ_ONLY", None)
+
+    def db_for_write(self, model, **hints):
+        """쓰기에서 사용할 데이터베이스"""      
+          
+        # 1. 기본 라우팅        
+        if model._meta.app_label in self.route_app_labels:
+            return model._meta.app_label
+
+        # 2. 그 외, 다음 라우터 또는 default 로 적용        
+        return "default"    
+        
+    def allow_relation(self, obj1, obj2, **hints):
+        """연결 허용 여부 확인"""        
+        
+        # 1. 동일한 기본 데이터베이스 엔드포인트는 연결 허용        
+        default_host = settings.DATABASES.get("default", {}).get("HOST")
+        slave_host = settings.DATABASES.get("slave", {}).get("HOST")
+        db_list = [
+            key for key, value in settings.DATABASES.items()
+            if value.get("HOST") in [default_host, slave_host]
+        ]
+        if obj1._state.db in db_list and obj2._state.db in db_list:
+            return True        
+          
+        # 2. Host 가 동일한 경우 연결 허용        
+        obj1_host = settings.DATABASES.get(str(obj1._state.db), {}).get("HOST")
+        obj2_host = settings.DATABASES.get(str(obj2._state.db), {}).get("HOST")
+        if obj1_host is not None and obj1_host == obj2_host:
+            return True        
+        
+        # 3. 그 외, 다음 라우터 또는 default 로 적용        
+        return None
+```
+
+</div>
+</div>

@@ -1,0 +1,51 @@
+---
+title: '파라미터 스토어를 환경 변수 저장소로 활용'
+authors: [jake]
+tags: [aws, ssm, parameter-store, env]
+---
+
+## ⭐ 키워드
+
+| 키워드 | 설명 |
+| --- | --- |
+| ssm | https://docs.aws.amazon.com/ko_kr/systems-manager/latest/userguide/what-is-systems-manager.html |
+|  |  |
+
+## 🐥 예시 - boto3
+
+```python
+import boto3
+import os
+
+access_key = ""  # AWS Access Key
+secret_key = ""  # AWS Secret Key
+region_name = "ap-northeast-2"  # AWS Region
+path = '/api/prod'  # Parameters Path
+
+# client 생성
+session = boto3.Session(
+    aws_access_key_id=access_key,
+    aws_secret_access_key=secret_key,
+    region_name=region_name
+)
+ssm = session.client("ssm")
+
+# AWS SSM Parameter Store 조회
+parameters = []
+next_token = ""
+options = {"Path": path, "Recursive": True, "WithDecryption": True}
+while True:
+    response = ssm.get_parameters_by_path(**options)
+    parameters.extend(response["Parameters"])
+    if "NextToken" in response:
+        options["NextToken"] = response["NextToken"]
+    else:
+        break
+
+# 환경 변수로 저장
+results = {}
+for parameter in parameters:
+    key = parameter["Name"].replace(path + "/", "")
+    value = parameter['Value']
+    os.environ[key] = value
+```

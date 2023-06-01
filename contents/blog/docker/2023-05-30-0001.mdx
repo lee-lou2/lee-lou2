@@ -1,0 +1,75 @@
+---
+title: '도커 설치 방법(Ubuntu 20.04)'
+authors: [jake]
+tags: [docker, install]
+---
+
+## ⭐ 키워드
+
+| 키워드 | 설명 |
+| --- | --- |
+| apt-get | Ubuntu 설치 패키지 |
+| sudo | 관리자 모드로 실행 |
+
+## 🐥 설치 방법1
+
+```python
+# 업데이트
+sudo apt-get update -y
+sudo apt-get upgrade -y
+
+# 필수 패키지 설치
+sudo apt-get install -y apt-transport-https ca-certificates curl gnupg-agent software-properties-common
+
+# 다운로드 설정
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+
+# 아키텍처별 다운로드
+## arch, uname -m 을 통해 아키텍처 확인 가능
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+sudo add-apt-repository "deb [arch=armhf] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+sudo add-apt-repository "deb [arch=arm64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+
+# 다운로드
+sudo apt-get update
+sudo apt-get install docker-ce docker-ce-cli containerd.io
+
+# 동작
+sudo systemctl enable docker && service docker start
+service docker status
+
+# 권한 부여
+sudo usermod -aG docker $USER
+
+# 도커 컴포즈 다운로드
+sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+
+# 실행 권한 부여
+sudo chmod +x /usr/local/bin/docker-compose
+
+# 확인
+docker-compose --version
+```
+
+## 🐥 설치 방법2
+
+```python
+# 업데이트
+sudo apt update -y
+sudo apt upgrade -y
+
+# 설치
+sudo apt install -y docker.io
+
+# 권한 부여
+sudo usermod -aG docker $USER
+
+# 도커 컴포즈 다운로드
+sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+
+# 실행 권한 부여
+sudo chmod +x /usr/local/bin/docker-compose
+
+# 확인
+docker-compose --version
+```

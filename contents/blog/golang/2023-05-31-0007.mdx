@@ -1,0 +1,64 @@
+---
+title: 'JWT 인증'
+authors: [jake]
+tags: [go, jwt]
+---
+
+## 토큰 생성.
+
+---
+
+```go
+// 토큰 발급
+token := jwt.New(jwt.SigningMethodHS256)
+
+claims := token.Claims.(jwt.MapClaims)
+claims["user_id"] = user.ID
+claims["exp"] = time.Now().Add(time.Hour * 6).Unix()
+
+accessToken, err := token.SignedString([]byte(conf.Config("JWT_SECRET_KEY")))
+if err != nil {
+	return errors.AuthCanNotGenToken(c, err)
+}
+return c.JSON(fiber.Map{
+	"status":  "success",
+	"message": "Success login",
+	"token":   accessToken,
+})
+```
+
+## 토큰 조회.
+
+---
+
+```go
+rng := rand.Reader
+var err error
+privateKey, err = rsa.GenerateKey(rng, 2048)
+if err != nil {
+	log.Fatalf("rsa.GenerateKey: %v", err)
+}
+
+// Login route
+app.Post("/login", login)
+
+// Unauthenticated route
+app.Get("/", accessible)
+
+// JWT Middleware
+app.Use(jwtware.New(jwtware.Config{
+	SigningMethod: "RS256",
+	SigningKey:    privateKey.Public(),
+}))
+
+// Restricted Routes
+app.Get("/restricted", restricted)
+
+...
+func restricted(c *fiber.Ctx) error {
+	user := c.Locals("user").(*jwt.Token)
+	claims := user.Claims.(jwt.MapClaims)
+	name := claims["name"].(string)
+	return c.SendString("Welcome " + name)
+}
+```

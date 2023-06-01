@@ -1,0 +1,81 @@
+---
+title: '데이터베이스 백업 및 복구, Python 정기적 백업 예시'
+authors: [jake]
+tags: [rdbms, python, db]
+---
+
+## ⭐ 키워드
+
+| 키워드 | 설명 |
+| --- | --- |
+| Backup | 데이터베이스 자료를 백업하여 관리 |
+| Reset | 백업된 데이터를 다시 데이터베이스에 적용 |
+
+## 🐥 예시(백업)
+
+```python
+mysqldump -u{계정} -p{패스워드} {데이터베이스명} > {파일명}.sql
+# 특정 데이터베이스 백업
+
+mysql -u{계정} -p{패스워드} --all-databases > {파일명}.sql
+# 전체 데이터베이스 백업
+
+mysqldump -u{계정} -p{패스워드} --default-character-set=utf8 {데이터베이스} > {파일명}.sql
+# 캐릭터셋 설정하여 백업
+
+mysqldump -u{계정} -p{패스워드} -B {데이터베이스명} --tables {테이블1} {테이블2} ... > {파일명}.sql
+# 특정 테이블 백업
+
+mysqldump -u{계정} -p{패스워드} --no-data {데이터베이스명} > {파일명}.sql
+# 테이블 구조만 백업
+```
+
+## 🐥 예시(복원)
+
+```python
+mysql -u{계정} -p{패스워드} {데이터베이스명} < {파일명}.sql
+# 특정 데이터베이스만 복원
+
+mysql -u{계정} -p{패스워드} < {파일명}.sql
+# 전체 데이터베이스 복원
+```
+
+## 🐥 예시(모든 테이블 삭제)
+
+```python
+# 이건 꼭!!! 확인 후 실행해주세요
+# DB이름 입력란에만 작성
+
+SET @tables = NULL;
+SELECT GROUP_CONCAT(table_schema, '.', table_name) INTO @tables
+  FROM information_schema.tables
+  WHERE table_schema = 'DB이름 입력'; -- specify DB name here.
+
+SET @tables = CONCAT('DROP TABLE ', @tables);
+PREPARE stmt FROM @tables;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+```
+
+## 🐥 예시(파이썬 스크립트)
+
+```python
+import os, datetime
+userid = ""
+passwd = ""
+database = ""
+enc = "utf8"
+def dumpdb():
+    today = datetime.date.today().strftime("%Y%m%d")
+    command = []
+    command.append("mysqldump")
+    command.append("-u%s" % userid)
+    command.append("-p%s" % passwd)
+    command.append("--default-character-set=%s" % enc)
+    command.append("--extended-insert=FALSE")
+    command.append("%s > ./%s_%s.sql" % (database, database, today))
+    command = " ".join(command)
+    os.system(command)
+if __name__=="__main__":
+    dumpdb()
+```

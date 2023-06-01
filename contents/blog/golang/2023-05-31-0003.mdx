@@ -1,0 +1,72 @@
+---
+title: 'PubSub 패턴으로 실시간 상태 관리 프로그래밍'
+authors: [jake]
+tags: [go, orm, sharding]
+---
+
+## 기본 활용 방법.
+
+---
+
+```go
+// 초기 설정
+conf.SetUp()
+
+// 마이그레이트
+db, err := conf.GetDB()
+if err != nil {
+	ErrorSaveAndNotification(exceptions.GetErrorInfo(), err)
+	return
+}
+databaseMigrate(db)
+
+// 스케쥴러 실행
+go schedulers.DefaultSchedulers()
+
+redisClient := conf.GetCacheClient()
+
+// 구독
+ctx := context.Background()
+subscriber := redisClient.Subscribe(ctx, "go-async")
+
+for {
+	// 메세지 조회
+	msg, err := subscriber.ReceiveMessage(ctx)
+	if err != nil {
+		ErrorSaveAndNotification(exceptions.GetErrorInfo(), err)
+		return
+	}
+
+	body := core.RequestBody{}
+	if err := json.Unmarshal([]byte(msg.Payload), &body); err != nil {
+		ErrorSaveAndNotification(exceptions.GetErrorInfo(), err)
+		return
+	}
+
+	// 유효성 검사
+	if err := body.Validate(); err != nil {
+		ErrorSaveAndNotification(exceptions.GetErrorInfo(), err)
+		return
+	}
+
+	// 객체 생성
+	db.Create(&core.Task{
+		Application:  body.Application,
+		TaskId:       body.TaskID,
+		TaskName:     body.TaskName,
+		IsProcessing: true,
+		IsCompleted:  false,
+	})
+
+	// 라우팅
+	if err := tasks.ApplicationRouters(body); err != nil {
+		ErrorSaveAndNotification(exceptions.GetErrorInfo(), err)
+		return
+	}
+
+	// 객체 성공, 저장
+	db.Model(&core.Task{}).
+		Where("application = ? AND task_id = ?", body.Application, body.TaskID).
+		Update("is_completed", true)
+}
+```

@@ -1,0 +1,11 @@
+{
+  "label": "파이썬(Python)",
+  "position": 1,
+  "collapsible": true,
+  "collapsed": false,
+  "link": {
+    "type": "generated-index",
+    "title": "파이썬(Python)",
+    "description": "파이썬 기본"
+  }
+}

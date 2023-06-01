@@ -1,0 +1,65 @@
+---
+title: 'GORM 예시(관계성 데이터 조회)'
+authors: [jake]
+tags: [go, db, gorm]
+---
+
+## 🐥 예시 - 브랜드별 매장 정보와 위치
+
+```python
+package server
+
+import (
+	"github.com/google/uuid"
+	"gorm.io/gorm"
+	"time"
+)
+
+// Brand 브랜드
+type Brand struct {
+	gorm.Model
+	Name   string `gorm:"not null;type:varchar(50)" json:"name"`
+	Stores []Store
+}
+
+// Store 매장
+type Store struct {
+	gorm.Model
+	BrandId  uint   `gorm:"foreignKey:ID"`
+	Brand    Brand  `gorm:"constraint:OnDelete:CASCADE;" json:"brand"`
+	Name     string `gorm:"not null;type:varchar(50)" json:"name"`
+	Forms    []StoreForm
+	Location StoreLocation
+}
+
+// StoreLocation 매장 위치
+type StoreLocation struct {
+	gorm.Model
+	StoreId   uint
+	Latitude  string `gorm:"null" json:"latitude"`
+	Longitude string `gorm:"null" json:"longitude"`
+	IsActive  bool   `gorm:"default:false"`
+}
+
+// StoreForm 스토어 작성 양식
+type StoreForm struct {
+	gorm.Model
+	StoreId  uint   `gorm:"foreignKey:ID"`
+	Store    Store  `gorm:"constraint:OnDelete:CASCADE;" json:"store"`
+	Key      string `gorm:"not null;type:varchar(50)" json:"key"`
+	Type     string `gorm:"not null;type:varchar(50)" json:"type"`
+	Required bool   `gorm:"default:false" json:"required"`
+	IsActive bool   `gorm:"default:true" json:"is_active"`
+}
+```
+
+## 🐥 예시 - 데이터 조회
+
+```python
+tx.Preload("Brand").Preload("Forms", func(tx *gorm.DB) *gorm.DB {
+	return tx.Where("is_active = ?", true)
+}).Preload("Location").Where("id = ?", storeId).First(&storeObj)
+if storeObj.ID == 0 {
+	return c.Render("error", fiber.Map{})
+}
+```

@@ -1,0 +1,58 @@
+---
+title: '도커 컨테이너 HTTPS 적용'
+authors: [jake]
+tags: [docker, https, nginx]
+---
+
+## ⭐ 키워드
+
+| 키워드 | 설명 |
+| --- | --- |
+| https | 보안 강화 |
+
+## 🐥 예시(docker-compose)
+
+```python
+...
+	proxy:
+	  image: nginxproxy/nginx-proxy
+	  container_name: proxy
+	  hostname: proxy
+	  restart: always
+	  ports:
+	    - "80:80"
+	    - "443:443"
+	  volumes:
+	    - certs:/etc/nginx/certs
+	    - vhost:/etc/nginx/vhost.d
+	    - html:/usr/share/nginx/html
+	    - /var/run/docker.sock:/tmp/docker.sock:ro
+	
+	letsencrypt:
+	  image: nginxproxy/acme-companion
+	  container_name: letsencrypt
+	  hostname: letsencrypt
+	  restart: always
+	  volumes_from:
+	    - proxy
+	  volumes:
+	    - /var/run/docker.sock:/var/run/docker.sock:ro
+	    - acme:/etc/acme.sh
+	  env_file: env/prod/.env.nginx
+
+volumes:
+  certs:
+  vhost:
+  html:
+  acme:
+
+# env/prod/.env.nginx
+DEFAULT_EMAIL=
+
+# 다른 앱에는 아래 환경 변수가 필수로 입력되어있어야 한다
+VIRTUAL_HOST=
+LETSENCRYPT_HOST=
+LETSENCRYPT_EMAIL=
+VIRTUAL_PORT=
+
+```

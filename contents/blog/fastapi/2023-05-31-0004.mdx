@@ -1,0 +1,60 @@
+---
+title: 'Limiter를 통해 Throttling 처리'
+authors: [jake]
+tags: [python, fastapi, limiter, throttling]
+---
+
+## ⭐ 키워드
+
+| 키워드 | 설명 |
+| --- | --- |
+| limiter | Request를 원하는대로 제한 |
+
+## 🐥 예시(생성)
+
+```python
+from slowapi import Limiter
+from slowapi.util import get_remote_address
+
+from project.core.caches import limiter_cache_url
+
+class BaseLimiter:
+    """
+    리미터 생성
+    """
+    def __init__(self):
+        self.key_func = get_remote_address
+        self.storage_uri = limiter_cache_url
+
+    @property
+    def init(self):
+        return Limiter(
+            key_func=self.key_func,
+            storage_uri=self.storage_uri,
+            default_limits=["1/second"],
+        )
+
+# 리미터 생성
+limiter = BaseLimiter()
+```
+
+## 🐥 예시(사용)
+
+```python
+from project.core.throttling import limiter
+
+# 리미터
+limiter = limiter.init
+
+# 라우터
+router_v1 = APIRouter()
+
+@router_v1.get('/')
+@limiter.limit("1/second")
+def api(
+        request: Request,
+        *,
+        db: Session = Depends(get_db),
+):
+    return {}
+```

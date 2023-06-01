@@ -1,0 +1,11 @@
+{
+  "label": "고(Golang)",
+  "position": 3,
+  "collapsible": true,
+  "collapsed": false,
+  "link": {
+    "type": "generated-index",
+    "title": "고(Golang)",
+    "description": "고 기본"
+  }
+}

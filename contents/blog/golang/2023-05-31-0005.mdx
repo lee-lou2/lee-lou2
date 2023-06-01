@@ -1,0 +1,62 @@
+---
+title: 'GORM 을 통해 데이터베이스 관리'
+authors: [jake]
+tags: [go, db, orm]
+---
+
+## 모델링.
+
+---
+
+```go
+type User struct {
+	gorm.Model
+	UUID       string `gorm:"unique;not null" json:"uuid"`
+	Email      string `gorm:"uniqueIndex;not null" json:"email"`
+	Password   string `gorm:"not null" json:"password"`
+	IsVerified bool   `gorm:"default:false" json:"is_verified"`
+}
+```
+
+## 기본 GET/SET 사용.
+
+---
+
+```go
+type ProjectConstant struct {
+	gorm.Model
+	Key   string
+	Value string
+}
+
+func GetConstant(key string, defaultValues ...string) string {
+	/*
+		프로젝트 상수 불러오기
+	*/
+	var projectConstant ProjectConstant
+
+	db := databases.GetDB()
+	db.Select("value").Where("key = ?", key).First(&projectConstant)
+	value := projectConstant.Value
+	// 데이터베이스에 값이 없는 경우 환경 변수에서 조회
+	if value == "" {
+		value = os.Getenv(key)
+		db.Create(&ProjectConstant{Key: key, Value: value})
+	}
+	// 데이터베이스와 환경 변수 모두에 값이 없는 경우
+	if value == "" && len(defaultValues) > 0 {
+		value = defaultValues[0]
+		db.Create(&ProjectConstant{Key: key, Value: value})
+	}
+	return value
+}
+
+func SetConstant(key string, value string) {
+	/*
+		프로젝트 상수 저장
+	*/
+	db := databases.GetDB()
+	db.Where("key = ?", key).FirstOrCreate(&ProjectConstant{Key: key})
+	db.Model(&ProjectConstant{}).Where("key = ?", key).Update("value", value)
+}
+```

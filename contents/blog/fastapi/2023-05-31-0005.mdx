@@ -1,0 +1,40 @@
+---
+title: 'Uvicorn Https 적용하여 실행'
+authors: [jake]
+tags: [python, fastapi, uvicorn, https, certbot]
+---
+
+## ⭐ 키워드
+
+| 키워드 | 설명 |
+| --- | --- |
+| certbot | Let’s Encrypt 를 통해 SSL 인증키 발급 |
+
+## 🐥 예시(Certbot 설치)
+
+```python
+sudo apt-get update -y
+"""
+필요시 사용
+sudo apt-get install software-properties-common
+sudo add-apt-repository universe
+sudo add-apt-repository ppa:certbot/certbot
+"""
+sudo apt-get install certbot
+```
+
+## 🐥 예시(인증키 발급)
+
+```python
+certbot certonly --manual --preferred-challenges dns -d "{도메인}"
+
+# 도메인 DNS 설정 필요
+# 1. TXT 등록
+# 2. A레코드 또는 CNAME 등록
+```
+
+## 🐥 예시(실행 코드)
+
+```python
+uvicorn main:app --host 0.0.0.0 --ssl-keyfile=./privkey.pem --ssl-certfile=./cert.pem --reload
+```

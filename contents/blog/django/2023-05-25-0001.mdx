@@ -1,0 +1,43 @@
+---
+title: 'Full Text Search 설정/사용'
+authors: [jake]
+tags: [django, orm, full-text-search]
+---
+
+## ⭐ 참고 사항
+
+| 내용 |
+| --- |
+| '설정' 부분은 mysql 에 대한 적용 사항입니다 (Postgres 는 클래스를 정의하지 않아도 바로 사용이 가능합니다) |
+| • FULL TEXT Search 에 사용되는 쿼리는 select * from table match (col) against ('text*' in boolean mode) 입니다 |
+| • 해당 테이블의 컬럼에 FULL TEXT 가 적용되어있어야합니다 |
+
+
+## 🐥 설정 방법
+
+```python
+from django.db import models
+
+class SearchLookUp(models.Lookup):
+    """FULL TEXT 검색 클래스"""
+    lookup_name = "search"
+
+    def as_mysql(self, compiler, connection):
+        lhs, lhs_params = self.process_lhs(compiler, connection)
+        rhs, rhs_params = self.process_rhs(compiler, connection)
+        params = lhs_params + rhs_params
+        return "MATCH (%s) AGAINST (%s IN BOOLEAN MODE)" % \
+               (lhs, rhs), list(map(lambda x: f"{x}*", params))
+
+# 필드별 적용 - 여기에서 정의한 필드에 대해서만 search 검색이 가능
+models.CharField.register_lookup(SearchLookUp)
+models.TextField.register_lookup(SearchLookUp)
+```
+
+## 🐥 사용 방법
+
+```python
+SampleTable.objects.filter(name__search="장")
+# 결과 : 장승국, 장... 등 관련 텍스트가 검색됩니다
+# __search 를 추가하면 FULL TEXT 검색이 가능해집니다
+```

@@ -1,0 +1,358 @@
+---
+title: 뷰
+sidebar_label: 4. Django 뷰와 시리얼라이저 코드 흐름
+description: Django 뷰와 시리얼라이저의 코드 흐름
+sidebar_position: 4
+---
+
+## 코드 구조.
+
+---
+
+### Views.py
+
+```python
+from rest_framework import viewsets, permissions, pagination, response, status
+from rest_framework.decorators import action
+
+from book.models.book import Book
+from book.serializers.book import BookSerializer
+from book.tests.test_views import test_logger
+
+class BookViewSet(viewsets.ModelViewSet):
+    """도서 관리"""
+
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
+    permission_classes = [permissions.AllowAny]
+    pagination_class = pagination.PageNumberPagination
+    lookup_field = "pk"
+
+    def get_queryset(self):
+        """쿼리셋 조회"""
+        test_logger("[Start] BookViewSet > get_queryset")
+        queryset = super().get_queryset()
+        test_logger("[End] BookViewSet > get_queryset")
+        return queryset
+
+    def get_object(self):
+        """객체 조회"""
+        test_logger("[Start] BookViewSet > get_object")
+        _object = super().get_object()
+        test_logger("[End] BookViewSet > get_object")
+        return _object
+
+    def get_permissions(self):
+        """퍼미션 조회"""
+        test_logger("[Start] BookViewSet > get_permissions")
+        _permissions = super().get_permissions()
+        test_logger("[End] BookViewSet > get_permissions")
+        return _permissions
+
+    def get_serializer(self, *args, **kwargs):
+        """시리얼 라이저 조회"""
+        test_logger("[Start] BookViewSet > get_serializer")
+        serializer = super().get_serializer(*args, **kwargs)
+        test_logger("[End] BookViewSet > get_serializer")
+        return serializer
+
+    def get_serializer_class(self):
+        """시리얼 라이저 클래스 조회"""
+        test_logger("[Start] BookViewSet > get_serializer_class")
+        serializer_class = super().get_serializer_class()
+        test_logger("[End] BookViewSet > get_serializer_class")
+        return serializer_class
+
+    def get_serializer_context(self):
+        """시리얼 라이저 Context 조회"""
+        test_logger("[Start] BookViewSet > get_serializer_context")
+        serializer_context = super().get_serializer_context()
+        test_logger("[End] BookViewSet > get_serializer_context")
+        return serializer_context
+
+    def get_exception_handler(self):
+        """오류 핸들러 클래스 조회"""
+        test_logger("[Start] BookViewSet > get_exception_handler")
+        handler = super().get_exception_handler()
+        test_logger("[End] BookViewSet > get_exception_handler")
+        return handler
+
+    def handle_exception(self, exc):
+        """오류 핸들링"""
+        test_logger("[Start] BookViewSet > handle_exception")
+        exception = super().handle_exception(exc)
+        test_logger("[End] BookViewSet > handle_exception")
+        return exception
+
+    def create(self, request, *args, **kwargs):
+        """데이터 생성"""
+        test_logger("[Start] BookViewSet > create")
+        resp = super().create(request, *args, **kwargs)
+        test_logger("[End] BookViewSet > create")
+        return resp
+
+    def update(self, request, *args, **kwargs):
+        """데이터 업데이트 - 전체"""
+        test_logger("[Start] BookViewSet > update")
+        resp = super().update(request, *args, **kwargs)
+        test_logger("[End] BookViewSet > update")
+        return resp
+
+    def partial_update(self, request, *args, **kwargs):
+        """데이터 업데이트 - 부분"""
+        test_logger("[Start] BookViewSet > partial_update")
+        resp = super().partial_update(request, *args, **kwargs)
+        test_logger("[End] BookViewSet > partial_update")
+        return resp
+
+    def retrieve(self, request, *args, **kwargs):
+        """데이터 상세 조회"""
+        test_logger("[Start] BookViewSet > retrieve")
+        resp = super().retrieve(request, *args, **kwargs)
+        test_logger("[End] BookViewSet > retrieve")
+        return resp
+
+    def destroy(self, request, *args, **kwargs):
+        """데이터 삭제"""
+        test_logger("[Start] BookViewSet > destroy")
+        resp = super().destroy(request, *args, **kwargs)
+        test_logger("[End] BookViewSet > destroy")
+        return resp
+
+    @action(methods=["GET"], detail=False)
+    def api1(self, request, *args, **kwargs):
+        """추가 API1"""
+        test_logger("BookViewSet > api1")
+        return response.Response(status=status.HTTP_200_OK, data={})
+
+    @action(methods=["GET"], detail=True)
+    def api2(self, request, *args, **kwargs):
+        """추가 API2"""
+        test_logger("BookViewSet > api2")
+        return response.Response(status=status.HTTP_200_OK, data={})
+```
+
+### Serializers.py
+
+```python
+from rest_framework import serializers
+
+from book.models.book import Book
+from book.tests.test_views import test_logger
+
+class BookSerializer(serializers.ModelSerializer):
+    """도서 시리얼라이저"""
+
+    def __init__(self, *args, **kwargs):
+        test_logger("BookSerializer > __init__")
+        super().__init__(*args, **kwargs)
+
+    def to_internal_value(self, data):
+        """데이터 전처리"""
+        test_logger("[Start] BookSerializer > to_internal_value")
+        value = super().to_internal_value(data)
+        test_logger("[End] BookSerializer > to_internal_value")
+        return value
+
+    def validate(self, attrs):
+        """필드별 유효성 검사"""
+        test_logger("[Start] BookSerializer > validate")
+        data = super().validate(attrs)
+        test_logger("[End] BookSerializer > validate")
+        return data
+
+    def validate_title(self, attr):
+        """특정 필드 유효성 검사"""
+        test_logger("BookSerializer > validate_title")
+        return attr
+
+    def to_representation(self, instance):
+        """데이터 반환"""
+        test_logger("[Start] BookSerializer > to_representation")
+        resp = super().to_representation(instance)
+        test_logger("[End] BookSerializer > to_representation")
+        return resp
+
+    def create(self, validated_data):
+        """데이터 생성"""
+        test_logger("[Start] BookSerializer > create")
+        data = super().create(validated_data)
+        test_logger("[End] BookSerializer > create")
+        return data
+
+    def update(self, instance, validated_data):
+        """데이터 수정"""
+        test_logger("[Start] BookSerializer > update")
+        data = super().update(instance, validated_data)
+        test_logger("[End] BookSerializer > update")
+        return data
+
+    def save(self, **kwargs):
+        """데이터 생성/수정"""
+        test_logger("[Start] BookSerializer > save")
+        data = super().save()
+        test_logger("[End] BookSerializer > save")
+        return data
+
+    class Meta:
+        model = Book
+        fields = "__all__"
+```
+
+## 흐름.
+
+---
+
+```python
+# 데이터 생성
+
+[Start] BookViewSet > get_permissions
+[End] BookViewSet > get_permissions
+[Start] BookViewSet > create
+[Start] BookViewSet > get_serializer
+[Start] BookViewSet > get_serializer_class
+[End] BookViewSet > get_serializer_class
+[Start] BookViewSet > get_serializer_context
+[End] BookViewSet > get_serializer_context
+BookSerializer > __init__
+[End] BookViewSet > get_serializer
+[Start] BookSerializer > to_internal_value
+BookSerializer > validate_title
+[End] BookSerializer > to_internal_value
+[Start] BookSerializer > validate
+[End] BookSerializer > validate
+[Start] BookSerializer > save
+[Start] BookSerializer > create
+[End] BookSerializer > create
+[End] BookSerializer > save
+[Start] BookSerializer > to_representation
+[End] BookSerializer > to_representation
+[End] BookViewSet > create
+```
+
+```python
+# 데이터 상세 조회
+
+[Start] BookViewSet > get_permissions
+[End] BookViewSet > get_permissions
+[Start] BookViewSet > retrieve
+[Start] BookViewSet > get_object
+[Start] BookViewSet > get_queryset
+[End] BookViewSet > get_queryset
+[Start] BookViewSet > get_permissions
+[End] BookViewSet > get_permissions
+[End] BookViewSet > get_object
+[Start] BookViewSet > get_serializer
+[Start] BookViewSet > get_serializer_class
+[End] BookViewSet > get_serializer_class
+[Start] BookViewSet > get_serializer_context
+[End] BookViewSet > get_serializer_context
+BookSerializer > __init__
+[End] BookViewSet > get_serializer
+[Start] BookSerializer > to_representation
+[End] BookSerializer > to_representation
+[End] BookViewSet > retrieve
+```
+
+```python
+# 데이터 삭제
+
+[Start] BookViewSet > get_permissions
+[End] BookViewSet > get_permissions
+[Start] BookViewSet > destroy
+[Start] BookViewSet > get_object
+[Start] BookViewSet > get_queryset
+[End] BookViewSet > get_queryset
+[Start] BookViewSet > get_permissions
+[End] BookViewSet > get_permissions
+[End] BookViewSet > get_object
+[End] BookViewSet > destroy
+```
+
+```python
+# 데이터 전체 수정
+
+[Start] BookViewSet > get_permissions
+[End] BookViewSet > get_permissions
+[Start] BookViewSet > update
+[Start] BookViewSet > get_object
+[Start] BookViewSet > get_queryset
+[End] BookViewSet > get_queryset
+[Start] BookViewSet > get_permissions
+[End] BookViewSet > get_permissions
+[End] BookViewSet > get_object
+[Start] BookViewSet > get_serializer
+[Start] BookViewSet > get_serializer_class
+[End] BookViewSet > get_serializer_class
+[Start] BookViewSet > get_serializer_context
+[End] BookViewSet > get_serializer_context
+BookSerializer > __init__
+[End] BookViewSet > get_serializer
+[Start] BookSerializer > to_internal_value
+BookSerializer > validate_title
+[End] BookSerializer > to_internal_value
+[Start] BookSerializer > validate
+[End] BookSerializer > validate
+[Start] BookSerializer > save
+[Start] BookSerializer > update
+[End] BookSerializer > update
+[End] BookSerializer > save
+[Start] BookSerializer > to_representation
+[End] BookSerializer > to_representation
+[End] BookViewSet > update
+```
+
+```python
+# 데이터 부분 수정
+
+[Start] BookViewSet > get_permissions
+[End] BookViewSet > get_permissions
+[Start] BookViewSet > partial_update
+[Start] BookViewSet > update
+[Start] BookViewSet > get_object
+[Start] BookViewSet > get_queryset
+[End] BookViewSet > get_queryset
+[Start] BookViewSet > get_permissions
+[End] BookViewSet > get_permissions
+[End] BookViewSet > get_object
+[Start] BookViewSet > get_serializer
+[Start] BookViewSet > get_serializer_class
+[End] BookViewSet > get_serializer_class
+[Start] BookViewSet > get_serializer_context
+[End] BookViewSet > get_serializer_context
+BookSerializer > __init__
+[End] BookViewSet > get_serializer
+[Start] BookSerializer > to_internal_value
+BookSerializer > validate_title
+[End] BookSerializer > to_internal_value
+[Start] BookSerializer > validate
+[End] BookSerializer > validate
+[Start] BookSerializer > save
+[Start] BookSerializer > update
+[End] BookSerializer > update
+[End] BookSerializer > save
+[Start] BookSerializer > to_representation
+[End] BookSerializer > to_representation
+[End] BookViewSet > update
+[End] BookViewSet > partial_update
+```
+
+```python
+# 데이터 생성 실패 - 유효성 검사 오류
+
+[Start] BookViewSet > get_permissions
+[End] BookViewSet > get_permissions
+[Start] BookViewSet > create
+[Start] BookViewSet > get_serializer
+[Start] BookViewSet > get_serializer_class
+[End] BookViewSet > get_serializer_class
+[Start] BookViewSet > get_serializer_context
+[End] BookViewSet > get_serializer_context
+BookSerializer > __init__
+[End] BookViewSet > get_serializer
+[Start] BookSerializer > to_internal_value
+[Start] BookViewSet > handle_exception
+[Start] BookViewSet > get_exception_handler
+[End] BookViewSet > get_exception_handler
+[End] BookViewSet > handle_exception
+```

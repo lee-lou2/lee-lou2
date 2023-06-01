@@ -1,0 +1,143 @@
+---
+title: '소셜 로그인 기능 추가(구글)'
+authors: [jake]
+tags: [python, fastapi, oauth2, social, login]
+---
+
+## ⭐ 키워드
+
+| 키워드 | 설명 |
+| --- | --- |
+| 소셜 로그인 | 소셜로부터 데이터를 받아와 자체 사용자 생성 등 |
+
+## 🐥 예시(Oauth 통합 base 파일)
+
+```python
+from abc import abstractmethod, ABCMeta
+
+from authlib.integrations.starlette_client import OAuth
+from sqlalchemy.orm import Session
+from starlette.requests import Request
+
+from conf.settings.prod import settings
+
+# Oauth 생성
+from core.choices import SocialTypeChoices
+
+oauth = OAuth()
+oauth.register(
+    name='google',
+    client_id=settings.SOCIAL_ACCOUNT_GOOGLE_CLIENT_ID,
+    client_secret=settings.SOCIAL_ACCOUNT_GOOGLE_SECRET,
+    server_metadata_url=settings.SOCIAL_ACCOUNT_GOOGLE_CONF_URL,
+    client_kwargs={
+        'scope': 'openid email profile'
+    }
+)
+
+class SocialBase:
+    def __init__(self, social_type: str = SocialTypeChoices.G.value):
+        self.social_type = social_type
+        self.oauth = oauth.create_client(self.social_type)
+
+class SocialLogin(SocialBase):
+    @property
+    def get_redirect_uri(self):
+        """
+        리다이렉트 주소 조회
+        """
+        if self.social_type == SocialTypeChoices.G.value:
+            return '/v1/auth/account/google/login/callback'
+
+    def authorize_redirect(self, request: Request):
+        """
+        리다이렉트
+        """
+        client_host = request.headers.get('host')
+        redirect_uri = f'http://{client_host}{self.get_redirect_uri}'
+        return self.oauth.authorize_redirect(request, redirect_uri)
+
+class SocialCallBack(SocialBase):
+    @property
+    def get_call_back_class(self):
+        """
+        콜백 클래스 조회
+        """
+        social_class = None
+        if self.social_type == SocialTypeChoices.G.value:
+            from apps.backend.auth.account.controllers.google import SocialCallBackGoogle
+            social_class = SocialCallBackGoogle
+        return social_class
+
+class SocialCallBackBase(SocialBase, metaclass=ABCMeta):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.validated_data = None
+        self.model = None
+        self.db = None
+
+    @abstractmethod
+    def is_valid(self, user: dict):
+        pass
+
+    @abstractmethod
+    def save(self):
+        pass
+
+    @abstractmethod
+    def get_or_create_user(self, request: Request, db: Session):
+        pass
+```
+
+## 🐥 예시(google 파일)
+
+```python
+from authlib.integrations.base_client import OAuthError
+from sqlalchemy.orm import Session
+from starlette.requests import Request
+
+from apps.backend.auth.account.controllers.base import SocialCallBackBase
+
+class SocialCallBackGoogle(SocialCallBackBase):
+    def get_user_or_none(self, email: str):
+        assert self.db, '데이터베이스 설정이 정상적으로 되지 않았습니다.'
+
+        from apps.backend.auth.user.models import User
+        user = self.db.query(User).filter_by(email=email).first()
+        return user
+
+    def is_valid(self, user: dict):
+        """
+        유효성 검사
+        """
+				# 유효성 검사
+        ...
+
+    def save(self):
+        """
+        저장
+        """
+        assert self.db, '데이터베이스 설정이 정상적으로 되지 않았습니다.'
+        assert self.validated_data, '유효성 검사 후에 사용 가능합니다.'
+
+				# 데이터 저장
+				...
+        return user
+
+    async def get_or_create_user(self, request: Request, db: Session):
+        try:
+            token = await self.oauth.authorize_access_token(request)
+        except OAuthError as err:
+            from core import exceptions as ex
+            raise ex.AuthExceptions.SocialLoginError
+        # 데이터베이스 설정
+        self.db = db
+        # 소셜 정보 조회
+        social_user = await self.oauth.userinfo(token=token)
+        email = dict(social_user).get('email')
+        user = self.get_user_or_none(email)
+        if user is None:
+            self.is_valid(social_user)
+            user = self.save()
+        return user
+```

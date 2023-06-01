@@ -1,0 +1,30 @@
+---
+title: 'Boto3 를 이용해 AWS Lambda 실행'
+authors: [jake]
+tags: [python, aws, lambda, boto3]
+---
+
+### 실행 예시.
+
+---
+
+```docker
+# 클라이언트 생성
+lambda_client = boto3.client(
+    "lambda",
+    aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
+    aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
+    region_name=settings.AWS_REGION,
+)
+# 함수 호출
+response = self.lambda_client.invoke(
+    # 함수명
+    FunctionName="함수명",
+    InvocationType="RequestResponse",
+		# Payload 값 전달
+    Payload=json.dumps(
+        {"name": ""}
+    ),
+)
+data = json.loads(response.get("Payload").read())
+```

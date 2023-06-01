@@ -1,0 +1,15 @@
+---
+title: 'GoormIDE 초기 패키지 서명 오류 설정'
+authors: [jake]
+tags: [goormide]
+---
+
+## 🐥 예시
+
+```python
+gpg --keyserver keyserver.ubuntu.com --recv [KEY]
+
+gpg --export --armor [KEY] | sudo apt-key add -
+
+wget -q -O - https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key | sudo apt-key add -
+```

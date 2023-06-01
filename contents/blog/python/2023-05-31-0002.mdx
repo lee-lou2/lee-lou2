@@ -1,0 +1,43 @@
+---
+title: 'Python Fommatter 적용, 예외 처리 등'
+authors: [jake]
+tags: [python, fommatter, black]
+---
+
+- Fomatter 설치
+
+```docker
+pip install black
+```
+
+- 예외 처리 파일 생성
+
+```docker
+# Fomatter 적용 할 최상위 폴더로 이동
+vi pyproject.toml
+
+# 설정 파일 내용
+[tool.black]
+line-length = 79
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+  | ^.*\b(migrations)\b.*$
+)/
+'''
+```
+
+- 실행(적용)
+
+```docker
+black .
+```

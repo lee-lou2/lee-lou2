@@ -1,0 +1,144 @@
+---
+title: 'Fiber 를 이용한 REST API 개발'
+authors: [jake]
+tags: [go, api, fiber]
+---
+
+## App & config.
+
+---
+
+```go
+app := fiber.New(fiber.Config{
+	AppName: "앱 이름",
+	...
+})
+```
+
+## Middleware.
+
+---
+
+```go
+app.Use(cors.New(cors.Config{
+	AllowOrigins: "*",
+	AllowHeaders: "Origin, Content-Type, Accept",
+}))
+// CSRF
+app.Use(csrf.New(csrf.Config{
+	KeyLookup:      "header:X-Csrf-Token",
+	CookieName:     "csrf_",
+	CookieSameSite: "Strict",
+	Expiration:     1 * time.Hour,
+	KeyGenerator:   utils.UUID,
+}))
+// 파비콘
+app.Use(favicon.New(favicon.Config{
+	File: "./static/public/favicon.ico",
+}))
+// 리미터
+app.Use(limiter.New(limiter.Config{
+	Max:        1,
+	Expiration: 1 * time.Second,
+	Next: func(c *fiber.Ctx) bool {
+		// 우선은 전체 제외
+		return true
+	},
+}))
+// 로거
+app.Use(logger.New(logger.Config{
+	Format:     "[${time}] ${pid} ${status} - ${method} ${path}\n",
+	TimeFormat: "2006-01-02T15:04:05",
+	TimeZone:   "Asia/Seoul",
+}))
+// PPROF
+app.Use(pprof.New())
+// panic 을 api 로 반환
+app.Use(recover.New())
+```
+
+## Router.
+
+---
+
+```go
+// Monitoring
+app.Get("/metrics", monitor.New(monitor.Config{Title: "MyService Metrics Page"}))
+app.Get("/health", healthCheckHandler)
+// 정적 파일
+app.Static("/static", "./static")
+
+// Version
+api := app.Group("/v1", logger.New())
+SetupV1Routes(api)
+
+...
+// User
+user := api.Group("/user")
+user.Post("/", handler.UserCreate)
+user.Post("/password", handler.UserChangePassword)
+```
+
+## Handler.
+
+---
+
+```go
+type RequestBody struct {
+	Email    string `json:"email"`
+	Password string `json:"password"`
+}
+var requestBody RequestBody
+var user model.User
+
+// 데이터 파싱
+if err := c.BodyParser(&requestBody); err != nil {
+	return errors.UserInputDataError(c, err)
+}
+
+// 존재 여부 확인
+db := database.DB
+db.Where("email = ?", requestBody.Email).First(&user)
+if user.ID != 0 {
+	return errors.UserExistUser(c, nil)
+}
+
+// 패스워드 유효성 검사
+if err := validatePassword(c, requestBody.Password); err != nil {
+	return err
+}
+
+// 패스워드 해싱
+hash, err := hashPassword(requestBody.Password)
+if err != nil {
+	return errors.UserFailedHashingPassword(c, err)
+}
+
+// 데이터 생성
+user.Email = requestBody.Email
+user.Password = hash
+user.UUID = generateUuid()
+if err := db.Create(&user).Error; err != nil {
+	return errors.UserFailedCreateUser(c, err)
+}
+
+// 인증키 저장
+verifiedCode := utils.RandStringBytes(8, utils.LetterBytes)
+cache.MemoryCache.Set(
+	"VERIFIED_EMAIL_CODE_"+strconv.Itoa(int(user.ID)),
+	verifiedCode,
+	5*time.Minute,
+)
+
+// 이메일 발송
+NotifySendEmail(
+	user.Email,
+	"회원 가입 완료",
+	template.AuthVerifiedEmailTemplate(
+		user.UUID,
+		verifiedCode,
+	),
+)
+
+return c.JSON(fiber.Map{"email": user.Email})
+```

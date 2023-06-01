@@ -1,0 +1,89 @@
+---
+title: 'ElasticSearch 기본 Query'
+authors: [jake]
+tags: [nosql, es, elasticsearch]
+---
+
+## ⭐ 키워드
+
+| 키워드 | 설명 |
+| --- | --- |
+| Elastic Search | Search 엔진에 최적화된 NoSql |
+
+## 🐥 예시
+
+```python
+# ElasticSearch Search Query Example
+{
+  # 몇개의 데이터를 표시하는가?최대 10,000개까지 표시
+  "size": 30,
+  # 데이터 정렬 방식
+  "sort": [{"update_date": "desc"}],
+  # 조건문
+  "query": {
+    "bool": {
+      # 필터
+      "filter": [
+        # 아래 3개의 필드의 값이 있는 경우에만 조회
+        {"exists": {"field": "member_seq"}},
+        {"exists": {"field": "content_type"}},
+        {"exists": {"field": "content_seq"}},
+      ],
+      "must": [
+        # 기간 범위 설정(+9h 는 utc 고려)
+        {"range": {"update_date": {"gte": "now-1d+9h", "lt": "2022-12-09 15:16:12"}}},
+        # 서비스중인 도서만
+        {"term": {"is_service": "true"}},
+        # 대여가능한 도서만
+        {"term": {"is_rent": "true"}},
+        # 해당 시퀀스의 사용자 피드만
+        {"terms": {"mem_seq": [1234]}},
+      ],
+      "must_not": [
+        # 해당 시퀀스 사용자는 조회하지 않음
+        {"terms": {"mem_seq": [2345]}},
+        # 삭제처리된 피드는 조회하지 않음
+        {"term": {"is_delete": "true"}},
+        # 아래 id 를 갖고 있는 피드는 조회하지 않음(완전히 일치)
+        {"terms": {"_id": ["123-456-POST"]}},
+        # 아래 텍스트가 포함된 피드는 조회하지 않음
+        {"script": {"script": "doc['_id'][0].indexOf('123-REVIEW') > -1"}},
+        # 아래 컨텐츠 타입은 조회하지 않음
+        {"term": {"content_type": "POST"}}
+      ]
+    }
+  }
+}
+
+# ElasticSearch GroupBy Query Example
+{
+  # 전체 데이터 기준
+  "size": 0,
+  # 기존과 동일
+  "query": {
+    "bool": {
+      "must": [
+        {"range": {...}}
+        ...
+      ]
+    }
+  },
+  "aggs": {
+    # 위 조건에 맞는 데이터를 아래 북시퀀스로 그룹핑
+    {"group_by_state": {"terms": {"field": "book_seq"}}}
+  }
+}
+
+# ElasticSearch Append Query Example
+{
+  "script": {
+    "lang": "painless", 
+    "source": (
+      "if(!ctx._source['field'].contains(params['field'])) {
+        ctx._source['field'].add(params['field'])
+      }"
+    ),
+    "params": {"field": "value"}
+  }
+}
+```

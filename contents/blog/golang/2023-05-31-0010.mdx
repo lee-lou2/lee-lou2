@@ -1,0 +1,23 @@
+---
+title: 'Linux(Ubuntu) Golang 설치'
+authors: [jake]
+tags: [go, linux, ubuntu, golang, install]
+---
+
+## 🐥 설치 방법
+
+```python
+# 다운로드(버전 설정)
+wget https://dl.google.com/go/go1.20.4.linux-amd64.tar.gz
+
+# user/local 폴더에 압축 해제
+rm -rf /usr/local/go && tar -C /usr/local -xzf go1.20.4.linux-amd64.tar.gz
+ 
+# 기본 환경 변수 설정
+export PATH=$PATH:/usr/local/go/bin
+
+# version 과 env 를 통해 버전과 환경 확인
+go version
+go env
+```
+* 참고 : https://go.dev/doc/install

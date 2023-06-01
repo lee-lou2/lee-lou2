@@ -1,0 +1,73 @@
+.tutorialPanel {
+    width: 300px;
+    height: 200px;
+    margin: 10px;
+    padding: 20px;
+    border: 1px solid #bdbdbd;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.tutorialPanelItem {
+    color: #444444;
+}
+
+.tutorialTag {
+    padding: 5px;
+}
+
+.projectPanel {
+    width: 100%;
+    max-width: 500px;
+    min-width: 300px;
+    min-height: 300px;
+    margin: 10px;
+    padding: 30px;
+    border: 1px solid #bdbdbd;
+    border-radius: 20px;
+}
+
+.projectPanelItem {
+    width: 90%;
+    margin: 10px;
+    padding: 20px;
+    border: 1px solid #85888b;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.keywordPanel {
+    overflow-x: auto;
+}
+
+.keywordPanelItem {
+    width: 100%;
+}
+
+.keyword {
+    padding: 5px;
+    cursor: pointer;
+}
+
+.projectPanelItem > * {
+    width: 100%;
+    max-width: 300px;
+    height: 40px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    text-align: center;
+}
+.projectPanelItem > select {
+    font-size: 15px;
+}
+.projectPanelItem > div {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+.projectPanelItem > button {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}

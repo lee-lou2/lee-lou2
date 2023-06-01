@@ -1,0 +1,47 @@
+---
+title: '함수 꾸미기(def, class 각각의 형태로)'
+authors: [jake]
+tags: [python, decorator]
+---
+
+## ⭐ 키워드
+
+| 키워드 | 설명 |
+| --- | --- |
+| decorator | 함수를 꾸민다 |
+
+## 🐥 예시(함수형)
+
+```python
+def function_decorator(func):
+	def wrapper(*args, **kwargs):
+		# 함수 앞부분에 꾸며줄 명령들
+	  result = func(*args, **kwargs)
+		# 함수 뒷부분에 꾸며줄 명령들
+    return result
+	return wrapper
+
+@function_decorator
+def _function():
+	pass
+```
+
+## 🐥 예시(클래스형)
+
+```python
+class ClassDecorator:
+	def __init__(self, params: bool):
+		self.params = params
+ 
+	def __call__(self, func):
+		def inner(*args, **kwargs):
+			# 함수 앞에 꾸며줄 명령들
+			result = func(*args, **kwargs)
+			# 함수 뒤에 꾸며줄 명령들
+			return result
+	return inner
+
+@ClassDecorator(params=True)
+def _fuction():
+	pass
+```
