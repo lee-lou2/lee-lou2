@@ -48,11 +48,16 @@
 }
 
 .keyword {
-    padding: 5px;
     cursor: pointer;
+    display: inline-block;
+    line-height: 2;
 }
 
-.projectPanelItem > * {
+.keywordCode {
+    padding: 5px;
+}
+
+.projectPanelItem>* {
     width: 100%;
     max-width: 300px;
     height: 40px;
@@ -60,14 +65,17 @@
     margin-bottom: 5px;
     text-align: center;
 }
-.projectPanelItem > select {
+
+.projectPanelItem>select {
     font-size: 15px;
 }
-.projectPanelItem > div {
+
+.projectPanelItem>div {
     margin-top: 5px;
     margin-bottom: 5px;
 }
-.projectPanelItem > button {
+
+.projectPanelItem>button {
     margin-top: 5px;
     margin-bottom: 5px;
 }

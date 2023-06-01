@@ -52,15 +52,15 @@ export default function Keyword() {
                   {content.keywords.map((keyword, index) => {
                     return (
                       <>
-                        <code
+                        <span
                           key={index}
                           className={styles.keyword}
                           onClick={() => {
                             location.href = content.path + "tags/" + keyword;
                           }}
                         >
-                          {keyword}
-                        </code>
+                          <code className={styles.keywordCode}>{keyword}</code>
+                        </span>
                         {index !== content.keywords.length - 1 && (
                           <span> </span>
                         )}
