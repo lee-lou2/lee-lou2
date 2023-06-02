@@ -1,69 +1,68 @@
-
 .pushToken {
-    display: none !important;
+  display: none !important;
 }
 
 @media (min-width: 768px) {
-    .scheduleDetail {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-    }
+  .scheduleDetail {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
 
-    .scheduleDetail > div {
-        width: 100%;
-        margin: 10px;
-        text-align: center;
-    }
+  .scheduleDetail>div {
+    width: 100%;
+    margin: 10px;
+    text-align: center;
+  }
 
-    .scheduleDetail > div > div {
-        width: 100%;
-        max-width: 200px;
-    }
+  .scheduleDetail>div>div {
+    width: 100%;
+    max-width: 200px;
+  }
 
-    .notificationTestElements {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: center;
-    }
+  .notificationTestElements {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
 
-    .notificationTestElements > button {
-        width: 100%;
-        max-width: 200px;
-        margin: 10px;
-        text-align: center;
-    }
+  .notificationTestElements>button {
+    width: 100%;
+    max-width: 200px;
+    margin: 10px;
+    text-align: center;
+  }
 
-    .notificationTestElements > div {
-        width: 100%;
-        max-width: 200px;
-        margin: 10px;
-        text-align: center;
-    }
+  .notificationTestElements>div {
+    width: 100%;
+    max-width: 200px;
+    margin: 10px;
+    text-align: center;
+  }
 }
 
 @media (max-width: 768px) {
-    .scheduleDetail > div {
-        width: 100%;
-        text-align: center;
-    }
+  .scheduleDetail>div {
+    width: 100%;
+    text-align: center;
+  }
 
-    .scheduleDetail > div > div {
-        width: 100%;
-        margin-bottom: 10px;
-        text-align: center;
-    }
+  .scheduleDetail>div>div {
+    width: 100%;
+    margin-bottom: 10px;
+    text-align: center;
+  }
 
-    .notificationTestElements > button {
-        width: 100%;
-        margin-bottom: 10px;
-        text-align: center;
-    }
+  .notificationTestElements>button {
+    width: 100%;
+    margin-bottom: 10px;
+    text-align: center;
+  }
 
-    .notificationTestElements > div {
-        width: 100%;
-        margin-bottom: 10px;
-        text-align: center;
-    }
+  .notificationTestElements>div {
+    width: 100%;
+    margin-bottom: 10px;
+    text-align: center;
+  }
 }

@@ -1,49 +1,51 @@
 @media (min-width: 768px) {
-    .chatTestElements {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: center;
-    }
+  .chatTestElements {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
 
-    .chatTestElements > div {
-        width: 100%;
-        max-width: 300px;
-        margin: 10px;
-        text-align: center;
-    }
+  .chatTestElements>div {
+    width: 100%;
+    max-width: 300px;
+    margin: 10px;
+    text-align: center;
+  }
 
-    .chatTestElements > button {
-        width: 100%;
-        max-width: 300px;
-        margin: 10px;
-        text-align: center;
-    }
+  .chatTestElements>button {
+    width: 100%;
+    max-width: 300px;
+    margin: 10px;
+    text-align: center;
+  }
 
-    .chatTestResponseBoard {
-        width: 100%;
-        height: auto;
-        border: 1px solid #dcdcdc;
-        margin: 10px;
-    }
+  .chatTestResponseBoard {
+    width: 100%;
+    height: auto;
+    border: 1px solid #dcdcdc;
+    margin: 10px;
+  }
 }
 
 @media (max-width: 768px) {
-    .chatTestElements > div {
-        width: 100%;
-        margin-top: 10px;
-        margin-bottom: 10px;
-        text-align: center;
-    }
-    .chatTestElements > button {
-        width: 100%;
-        margin-top: 10px;
-        margin-bottom: 10px;
-        text-align: center;
-    }
-    .chatTestResponseBoard {
-        width: 100%;
-        height: auto;
-        border: 1px solid #dcdcdc;
-    }
+  .chatTestElements>div {
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+
+  .chatTestElements>button {
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+
+  .chatTestResponseBoard {
+    width: 100%;
+    height: auto;
+    border: 1px solid #dcdcdc;
+  }
 }

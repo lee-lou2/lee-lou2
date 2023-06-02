@@ -1,52 +1,52 @@
 @media (max-width: 350px) {
-    .profileImg {
-        width: 100%;
-        height: auto;
-    }
+  .profileImg {
+    width: 100%;
+    height: auto;
+  }
 }
 
 @media (min-width: 350px) and (max-width: 768px) {
-    .container {
-        display: flex;
-        justify-content: space-between;
-        text-align: left;
-    }
+  .container {
+    display: flex;
+    justify-content: space-between;
+    text-align: left;
+  }
 
-    .leftLayout {
-        flex: 1;
-    }
+  .leftLayout {
+    flex: 1;
+  }
 
-    .rightLayout {
-        flex: 2;
-        margin-left: 20px;
-    }
+  .rightLayout {
+    flex: 2;
+    margin-left: 20px;
+  }
 
-    .profileImg {
-        width: 100%;
-        height: auto;
-    }
+  .profileImg {
+    width: 100%;
+    height: auto;
+  }
 }
 
 @media (min-width: 768px) {
-    .container {
-        display: flex;
-        justify-content: space-between;
-        margin: 50px;
-        text-align: left;
-    }
+  .container {
+    display: flex;
+    justify-content: space-between;
+    margin: 50px;
+    text-align: left;
+  }
 
-    .leftLayout {
-        flex: 1;
-    }
+  .leftLayout {
+    flex: 1;
+  }
 
-    .rightLayout {
-        flex: 2;
-        margin-left: 50px;
-        margin-right: 50px;
-    }
+  .rightLayout {
+    flex: 2;
+    margin-left: 50px;
+    margin-right: 50px;
+  }
 
-    .profileImg {
-        width: 100%;
-        height: auto;
-    }
+  .profileImg {
+    width: 100%;
+    height: auto;
+  }
 }

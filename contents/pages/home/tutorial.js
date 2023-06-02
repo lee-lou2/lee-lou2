@@ -24,31 +24,31 @@ export default function Tutorial() {
         align="prev"
         circular={true}
       >
-          {tutorials.map((tutorial, index) => {
-            return (
-              <div className={styles.tutorialPanel} key={index} onClick={()=> {location.href=tutorial.url}}>
-                <h2>{tutorial.title}</h2>
-                <div className={styles.tutorialPanelItem}>
-                  <div dangerouslySetInnerHTML={{__html: tutorial.description}}></div>
-                </div>
-                <br />
-                <div>
-                  {tutorial.keywords.map((keyword, index) => {
-                    return (
-                      <>
-                        <code className={styles.tutorialTag} key={index}>#{keyword}</code>
-                        {index !== tutorial.keywords.length - 1 && (
-                          <span> </span>
-                        )}
-                      </>
-                    )
-                  })}
-                </div>
+        {tutorials.map((tutorial, index) => {
+          return (
+            <div className={styles.tutorialPanel} key={index} onClick={() => { location.href = tutorial.url }}>
+              <h2>{tutorial.title}</h2>
+              <div className={styles.tutorialPanelItem}>
+                <div dangerouslySetInnerHTML={{ __html: tutorial.description }}></div>
               </div>
-            )
-          }
+              <br />
+              <div>
+                {tutorial.keywords.map((keyword, index) => {
+                  return (
+                    <>
+                      <code className={styles.tutorialTag} key={index}>#{keyword}</code>
+                      {index !== tutorial.keywords.length - 1 && (
+                        <span> </span>
+                      )}
+                    </>
+                  )
+                })}
+              </div>
+            </div>
+          )
+        }
         )
-      }
+        }
       </Flicking>
     </div>
   )
