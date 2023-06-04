@@ -33,6 +33,12 @@ export default function Keyword() {
       url: "2023/05/31/0005",
       path: "/blog/aws/"
     },
+    {
+      keywords: ["etc", "command", "linux", "docker"],
+      title: "[ETC] 자주 사용하는 명령 모음",
+      url: "2023/06/05/0003#-django-admin-dockerfile",
+      path: "/blog/etc/"
+    },
   ];
 
   return (
