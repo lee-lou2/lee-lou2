@@ -7,127 +7,101 @@ sidebar_position: 3
 
 import TestChatGPT from './src/chat'
 
-# 💬 ChatGPT
+# 💬 무료 ChatGPT로 슬랙봇 생성
 
 :::tip
-ChatGPT **API** 무료로 사용하는 방법
+뤼튼 API를 이용해 무료로 슬랙봇을 만들어보세요!
 :::
 
-## SSE 를 이용한 ChatGPT(무료) 슬랙 챗봇 만들기
+## 1. 슬랙 APP 생성
 
-### 1. 슬랙봇(소켓 모드) 실행
-```go
-// SocketModeSlackBot 슬랙 봇
-func SocketModeSlackBot(messageFunction func(string) (string, error), configs ...Configs) error {
-	cfg, err := setConfigs(configs...)
-	if err != nil {
-		return err
-	}
-	api := slack.New(cfg.BotToken, slack.OptionAppLevelToken(cfg.AppToken))
-	client := socketmode.New(api)
-	// 봇 자신의 ID 가져오기
-	botInfo, err := api.AuthTest()
-	if err != nil {
-		log.Fatalf("봇 정보를 가져오는데 실패했습니다: %v", err)
-	}
-	botID := botInfo.UserID
+### 1.1 슬랙 APP 선택
 
-	// 처리 중인 메시지 추적을 위한 맵과 뮤텍스 생성
-	var processingMessages sync.Map
+👉 **'From scratch'** 선택
 
-	go func() {
-		for evt := range client.Events {
-			switch evt.Type {
-			case socketmode.EventTypeEventsAPI:
-				eventsAPIEvent, ok := evt.Data.(slackevents.EventsAPIEvent)
-				if !ok {
-					fmt.Printf("소켓 모드 이벤트가 아닙니다: %v\n", evt)
-					continue
-				}
+![img](./img/1.png)
 
-				if eventsAPIEvent.Type == slackevents.CallbackEvent {
-					innerEvent := eventsAPIEvent.InnerEvent
-					switch ev := innerEvent.Data.(type) {
-					case *slackevents.MessageEvent:
-						// 봇이 작성한 메시지는 처리하지 않음
-						if ev.User == botID {
-							continue
-						}
+### 1.2 슬랙 APP 이름 설정
 
-						// 이미 처리 중인 메시지는 건너뜀
-						if _, isProcessing := processingMessages.LoadOrStore(ev.ClientMsgID, true); isProcessing {
-							continue
-						}
-						defer processingMessages.Delete(ev.ClientMsgID)
+👉 **App Name** : 원하는 이름
 
-						channelID := ev.Channel
-						message := ev.Text
+👉 **Pick a workspace ...** : 생성을 희망하는 워크플로우 선택
 
-						responseMessage, _ := messageFunction(message)
-						_, _, _, err := api.SendMessage(channelID, slack.MsgOptionText(responseMessage, false))
-						if err != nil {
-							fmt.Printf("응답 메시지를 보내는데 실패했습니다: %v\n", err)
-						}
-					}
-				}
-			}
-		}
-	}()
+👉 전체 입력 후 **'Create App'** 선택
 
-	for {
-		err := client.Run()
-		if err != nil {
-			log.Printf("소켓 모드 클라이언트 실행 중 에러 발생: %v", err)
-		}
-	}
-}
-```
+![img](./img/2.png)
 
-### 2. SSE, 슬랙 API 생성
-```go
-준비중
-```
+### 1.3 Socket Mode 켜기
 
-### 3. 브라우저 콘솔 모드를 이용해 SSE 호출
-```javascript
-준비중
+👉 **Connect using Socket Mode** : **On**
+
+👉 **Token** : 슬랩 앱 토큰(아래 코드에서 'SLACK_APP_TOKEN' 으로 사용)
+
+![img](./img/10.png)
+![img](./img/11.png)
+![img](./img/12.png)
+
+### 1.4 Event Subscriptions 설정
+
+👉 **Enable Events** : On
+
+👉 **Subscribe to bot events** : `message.channels` 추가
+
+![img](./img/3.png)
+![img](./img/4.png)
+
+### 1.5 OAuth & Permissions 설정
+
+👉 **Scopes** : `chat:write` 추가
+
+👉 **Install to Workspace** : 클릭
+
+![img](./img/5.png)
+![img](./img/6.png)
+![img](./img/7.png)
+
+### 1.6 앱 설치 및 Bot Token 확인
+
+👉 **Bot User OAuth Token** : 복사 (이 토큰이 아래에서 'SLACK_BOT_TOKEN' 으로 사용)
+
+![img](./img/8.png)
+![img](./img/9.png)
+
+
+## 2. 슬랙 봇 지정
+
+### 2.1 슬랙 실행
+
+👉 슬랙 워크스페이스에 접속
+
+### 2.2 채널 생성
+
+![img](./img/13.png)
+
+### 2.3 앱 추가
+
+![img](./img/14.png)
+
+## 3. 코드 가져오기
+
+```bash
+$ git clone https://github.com/lee-lou2/chatgpt-slackbot
 ```
 
 
-## ChatGPT API 예시(Golang)
+## 4. 슬랙봇 실행 코드
 
-```go
-package main
+```bash
+$ pip install -r requirements.txt
 
-import (
-	"context"
-	"fmt"
-	openai "github.com/sashabaranov/go-openai"
-)
+$ export SLACK_APP_TOKEN="<위에서 저장한 코드>"
+$ export SLACK_BOT_TOKEN="<위에서 저장한 코드>"
 
-func main() {
-	client := openai.NewClient("your token")
-	resp, err := client.CreateChatCompletion(
-		context.Background(),
-		openai.ChatCompletionRequest{
-			Model: openai.GPT3Dot5Turbo,
-			Messages: []openai.ChatCompletionMessage{
-				{
-					Role:    openai.ChatMessageRoleUser,
-					Content: "Hello!",
-				},
-			},
-		},
-	)
-
-	if err != nil {
-		fmt.Printf("ChatCompletion error: %v\n", err)
-		return
-	}
-
-	fmt.Println(resp.Choices[0].Message.Content)
-}
+$ python main.py
 ```
+
+## 5. 파이썬 애니웨어에 배포
+
+👉 준비중
 
 <TestChatGPT></TestChatGPT>
-
