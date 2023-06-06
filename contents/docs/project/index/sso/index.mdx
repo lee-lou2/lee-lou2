@@ -65,3 +65,175 @@ OAuth2.0 SSO Server 구축
 ---
 
 ![img1](./img/sso_server.png)
+
+## 사이트 정보
+
+**💻 소스코드** : https://github.com/lee-lou2/sso
+
+
+## 기능
+
+- 사용자 등록 및 로그인
+- 사용자 인증 정보의 중앙 집중 관리
+- 다중 애플리케이션 간 SSO 지원
+
+## 요구 사항
+
+- Python 3.x
+- Django 3.x
+
+## 주요 라이브러리
+
+- django-oauth-toolkit
+- allauth
+
+## 설치
+
+1. 리포지토리를 클론합니다.
+
+```
+git clone https://github.com/lee-lou2/sso
+```
+
+2. 가상 환경을 만들고 활성화합니다.
+
+```
+python3 -m venv venv
+source venv/bin/activate
+```
+
+3. 종속성을 설치합니다.
+
+```
+cd sso
+pip install -r requirements.txt
+```
+
+4. 환경 변수를 설정합니다.
+
+```
+# .env.sample 키에 해당하는 값을 작성합니다
+```
+
+5. 데이터베이스를 마이그레이션합니다.
+
+```
+python manage.py migrate
+```
+
+6. 서버를 실행합니다.
+
+```
+python manage.py runserver
+```
+
+7. 브라우저에서 `http://localhost:8000`으로 접속하여 서버를 확인합니다.
+
+## 설정
+
+### SSO 클라이언트 등록
+
+1. 클라이언트 생성 페이지로 이동
+    1)  {SERVER}/oauth2/applications/
+
+- `name`: 클라이언트 이름
+- `client_id`: 클라이언트 식별자
+- `client_secret`: 클라이언트 비밀 키
+- `Redirect uris`: 클라이언트의 콜백 URL
+- `Client type`: Confidential 선택
+- `Authorization grant type`: Authorization code 선택
+- `Algorithm`: RSA 선택
+
+### 기타 설정
+
+- `SECRET_KEY`: Django 애플리케이션의 비밀 키
+- `ALLOWED_HOSTS`: 허용된 호스트 리스트
+
+## 사용법
+
+### [ Golang ]
+
+1. 로그인 페이지 리다이렉션 링크 생성
+
+```go
+// GetRedirectUri 로그인 페이지로 리다이렉트할 URI를 반환
+func GetRedirectUri() (string, error) {
+	codeVerifier, err := getCodeVerifier()
+	if err != nil {
+		return "", err
+	}
+	codeChallenge := getCodeChallenge(codeVerifier)
+
+	redirectURI := fmt.Sprintf(
+		"%s/oauth2/authorize/?"+
+			"response_type=code&"+
+			"code_challenge=%s&"+
+			"code_challenge_method=S256&"+
+			"client_id=%s&"+
+			"redirect_uri=%s&"+
+			"state=%s",
+		os.Getenv("OAUTH2_SSO_SERVER_HOST"),
+		url.QueryEscape(codeChallenge),
+		url.QueryEscape(os.Getenv("OAUTH2_CLIENT_ID")),
+		url.QueryEscape(os.Getenv("OAUTH2_CALLBACK_URL")),
+		url.QueryEscape(codeVerifier),
+	)
+	return redirectURI, nil
+}
+```
+
+2. 로그인 후 Authorization code 발급
+
+
+3. 코드를 이용해 토큰 발급
+
+```go
+
+// tokenResponse 토큰 응답
+type tokenResponse struct {
+	AccessToken  string `json:"access_token"`
+	ExpiresIn    int    `json:"expires_in"`
+	TokenType    string `json:"token_type"`
+	Scope        string `json:"scope"`
+	RefreshToken string `json:"refresh_token"`
+	IdToken      string `json:"id_token"`
+}
+
+// GetToken 토큰 가져오기
+func GetToken(code, state string) (*tokenResponse, error) {
+	var respData tokenResponse
+
+	data := url.Values{}
+	data.Set("client_id", os.Getenv("OAUTH2_CLIENT_ID"))
+	data.Set("client_secret", os.Getenv("OAUTH2_CLIENT_SECRET"))
+	data.Set("code", code)
+	data.Set("code_verifier", state)
+	data.Set("redirect_uri", os.Getenv("OAUTH2_CALLBACK_URL"))
+	data.Set("grant_type", "authorization_code")
+	payload := strings.NewReader(data.Encode())
+
+	// 요청
+	resp, _ := requests.Http(
+		"POST",
+		os.Getenv("OAUTH2_SSO_SERVER_HOST")+"/oauth2/token/",
+		payload,
+		&requests.Header{
+			Key:   "Cache-Control",
+			Value: "no-cache",
+		},
+		&requests.Header{
+			Key:   "Content-Type",
+			Value: "application/x-www-form-urlencoded",
+		},
+	)
+	if resp.StatusCode != 200 {
+		return nil, fmt.Errorf("토큰 조회를 실패하였습니다 : %s", resp.Body)
+	}
+	if err := json.Unmarshal([]byte(resp.Body), &respData); err != nil {
+		return nil, err
+	}
+	return &respData, nil
+}
+```
+
+3. 토큰을 이용해 사용자 정보 조회 등 활용
