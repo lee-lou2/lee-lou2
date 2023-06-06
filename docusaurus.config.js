@@ -13,18 +13,11 @@ const directories = fs.readdirSync(dirPath).filter((file) => {
 
 // 폴더명 라벨링(라벨링이 되어있지 않은 폴더는 영어 폴더면 그대로 노출)
 const labels = {
-  'python': "파이썬",
-  'django': "파이썬 - Django",
-  'fastapi': "파이썬 - FastAPI",
-  'golang': "고(GO)",
-  'gin': "고(GO) - Gin",
-  'docker': "도커",
-  'rdbms': "관계형 데이터베이스",
-  'aws': "AWS",
-  'cache': "캐시",
-  'nosql': "NoSQL",
-  'react': "리액트",
-  'etc': "기타"
+  'backend': '백엔드',
+  'frontend': '프론트엔드',
+  'infra': '인프라',
+  'database': '데이터베이스',
+  'etc': '기타',
 };
 
 // 아래 configs 에 사용되는 형태로 변환

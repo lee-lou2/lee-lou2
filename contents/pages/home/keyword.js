@@ -6,32 +6,32 @@ export default function Keyword() {
     {
       keywords: ["go", "socket", "slack"],
       title: "[GO] 슬랙 소켓 모드",
-      url: "2023/05/17/0001",
-      path: "/blog/golang/"
+      url: "2023/05/17/0015",
+      path: "/blog/backend/"
     },
     {
       keywords: ["django", "orm", "full-text-search"],
       title: "[Django] Full Text Search 설정/사용",
       url: "2023/05/25/0001",
-      path: "/blog/django/"
+      path: "/blog/backend/"
     },
     {
       keywords: ["aws", "cicd", "code-commit", "git"],
       title: "[AWS] CI/CD 1단계, Code Commit - Git 원격 저장소 생성",
       url: "2023/05/31/0003",
-      path: "/blog/aws/"
+      path: "/blog/infra/"
     },
     {
       keywords: ["aws", "cicd", "code-build", "buildspec"],
       title: "[AWS] CI/CD 2단계, Code Build 생성 및 buildspec 등 작성",
       url: "2023/05/31/0004",
-      path: "/blog/aws/"
+      path: "/blog/infra/"
     },
     {
       keywords: ["aws", "cicd", "code-deploy", "beanstalk"],
       title: "[AWS] CI/CD 3단계, Deploy 환경 구축, Beanstalk 생성/설정",
       url: "2023/05/31/0005",
-      path: "/blog/aws/"
+      path: "/blog/infra/"
     },
     {
       keywords: ["etc", "command", "linux", "docker"],
