@@ -213,6 +213,7 @@ const config = {
       },
       metadata: [
         { name: 'viewport', content: 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' },
+        { name: 'naver-site-verification', content: '4c3c3a3c3c9482d418d2f83ba9c689533e26bd8e' },
       ],
     }),
   plugins: [
