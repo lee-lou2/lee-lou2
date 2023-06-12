@@ -43,21 +43,21 @@ export default function Keyword() {
 
   return (
     <div className={styles.keywordPanel}>
-      <table style={{ width: "100%" }}>
+      <table style={{width: "100%"}}>
         <thead>
-          <tr>
-            <th>키워드</th>
-            <th>제목</th>
-          </tr>
+        <tr>
+          <th>키워드</th>
+          <th>제목</th>
+        </tr>
         </thead>
         <tbody>
-          {contents.map((content, index) => {
-            return (
-              <tr key={index}>
-                <td style={{ width: "300px", minWidth: "200px" }}>
-                  {content.keywords.map((keyword, index) => {
-                    return (
-                      <>
+        {contents.map((content, index) => {
+          return (
+            <tr key={index}>
+              <td style={{width: "300px", minWidth: "200px"}}>
+                {content.keywords.map((keyword, index) => {
+                  return (
+                    <>
                         <span
                           key={index}
                           className={styles.keyword}
@@ -67,21 +67,21 @@ export default function Keyword() {
                         >
                           <code className={styles.keywordCode}>{keyword}</code>
                         </span>
-                        {index !== content.keywords.length - 1 && (
-                          <span> </span>
-                        )}
-                      </>
-                    );
-                  })}
-                </td>
-                <td style={{ minWidth: "500px" }}>
-                  <a href={content.path + content.url} className={styles.title}>
-                    {content.title}
-                  </a>
-                </td>
-              </tr>
-            );
-          })}
+                      {index !== content.keywords.length - 1 && (
+                        <span> </span>
+                      )}
+                    </>
+                  );
+                })}
+              </td>
+              <td style={{minWidth: "500px"}}>
+                <a href={content.path + content.url} className={styles.title}>
+                  {content.title}
+                </a>
+              </td>
+            </tr>
+          );
+        })}
         </tbody>
       </table>
     </div>

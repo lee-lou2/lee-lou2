@@ -1,7 +1,7 @@
 ---
 title: 'CI/CD 2단계, Code Build 생성 및 buildspec 등 작성'
-authors: [jake]
-tags: [aws, cicd, code-build, buildspec]
+authors: [ jake ]
+tags: [ aws, cicd, code-build, buildspec ]
 ---
 
 ### BuildSpec 등 필요 파일 작성.
@@ -156,7 +156,7 @@ EXPOSE      80
 - 바로 빌드하면 아래와 같은 오류가 나온다
     - 그 원인은 IAM 역할 때문… 아래에서 역할 부여 방법 설명
     - 역할에 다음 권한을 추가해준다
-    
+
     ```docker
     {
       "Action": [
@@ -171,7 +171,6 @@ EXPOSE      80
       "Effect": "Allow"
     },
     ```
-    
 
 ![img](./img/004/13.png)
 

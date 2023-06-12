@@ -1,13 +1,13 @@
 /* 모바일이 아닐때만 flex 적용 */
 @media (min-width: 768px) {
-  .docsSSOWord {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-  }
+    .docsSSOWord {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
 
-  .docsSSOWord>div {
-    width: 100%;
-    margin: 10px;
-  }
+    .docsSSOWord > div {
+        width: 100%;
+        margin: 10px;
+    }
 }

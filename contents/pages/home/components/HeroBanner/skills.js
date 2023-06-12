@@ -15,14 +15,14 @@ export default function SkillsBanner() {
       name: 'GO',
       color: '#dadada'
     },
-    { name: 'React' },
-    { name: 'WPF' },
+    {name: 'React'},
+    {name: 'WPF'},
     {
       name: 'Docker',
       color: '#dadada'
     },
-    { name: 'AWS' },
-    { name: 'k8s' },
+    {name: 'AWS'},
+    {name: 'k8s'},
     {
       name: 'MySQL',
       color: '#dadada'
@@ -31,20 +31,20 @@ export default function SkillsBanner() {
       name: 'Postgresql',
       color: '#dadada'
     },
-    { name: 'MongoDB' },
-    { name: 'Elaticsearch' },
-    { name: 'Redis' },
-    { name: 'RabbitMQ' },
-    { name: 'Kafka' },
-    { name: 'Kinesis' },
-    { name: 'Git Actions' },
-    { name: 'gRPC' },
+    {name: 'MongoDB'},
+    {name: 'Elaticsearch'},
+    {name: 'Redis'},
+    {name: 'RabbitMQ'},
+    {name: 'Kafka'},
+    {name: 'Kinesis'},
+    {name: 'Git Actions'},
+    {name: 'gRPC'},
   ]
   return (
     <>
       <div className={styles.bannerSkills}>
         {skills.map((skill) => (
-          <div className={styles.bannerSkill} style={{ color: skill.color }}>
+          <div className={styles.bannerSkill} style={{color: skill.color}}>
             {skill.name}
           </div>
         ))}

@@ -1,39 +1,39 @@
 @media (max-width: 768px) {
-  .bannerSkills {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-end;
-    align-items: center;
-    width: 100%;
-  }
+    .bannerSkills {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        align-items: center;
+        width: 100%;
+    }
 
-  .bannerSkill {
-    font-size: 2.2rem;
-    font-weight: 900;
-    -webkit-text-stroke: 1px rgb(133, 133, 133);
-    margin-right: 10px;
-    color: white;
-  }
+    .bannerSkill {
+        font-size: 2.2rem;
+        font-weight: 900;
+        -webkit-text-stroke: 1px rgb(133, 133, 133);
+        margin-right: 10px;
+        color: white;
+    }
 }
 
 @media (min-width: 768px) {
-  .bannerSkills {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-end;
-    align-items: center;
-    width: 100%;
-  }
+    .bannerSkills {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        align-items: center;
+        width: 100%;
+    }
 
-  .bannerSkill {
-    font-size: 2.8rem;
-    font-weight: 900;
-    -webkit-text-stroke: 1px rgb(133, 133, 133);
-    margin-right: 10px;
-    color: white;
-  }
+    .bannerSkill {
+        font-size: 2.8rem;
+        font-weight: 900;
+        -webkit-text-stroke: 1px rgb(133, 133, 133);
+        margin-right: 10px;
+        color: white;
+    }
 }
 
 .bannerSkill:hover {
-  color: #989898 !important;
+    color: #989898 !important;
 }

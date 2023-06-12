@@ -24,14 +24,18 @@ export default function HeroBanner() {
           <div className={styles.bannerButtons}>
             <button
               className={styles.bannerLeftButton}
-              onClick={() => { location.href = "/docs/iam" }}
+              onClick={() => {
+                location.href = "/docs/iam"
+              }}
             >
               자세히 보기
             </button>
             <span> </span>
             <button
               className={styles.bannerRightButton}
-              onClick={() => { location.href = "mailto:lee@lou2.kr" }}
+              onClick={() => {
+                location.href = "mailto:lee@lou2.kr"
+              }}
             >
               문의하기
             </button>

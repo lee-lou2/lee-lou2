@@ -1,10 +1,11 @@
 ---
 title: '슬랙 소켓 모드'
-authors: [jake]
-tags: [slack, socket, go]
+authors: [ jake ]
+tags: [ slack, socket, go ]
 ---
 
 ## 슬랙 봇 설정
+
 ```go
 // configs.go
 
@@ -117,6 +118,7 @@ func SocketModeSlackBot(messageFunction func(string) (string, error), configs ..
 ```
 
 ## 실행
+
 ```go
 func main() {
     err := slack.SocketModeSlackBot(message.RequestMessage)

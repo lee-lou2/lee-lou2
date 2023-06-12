@@ -1,17 +1,16 @@
 ---
 title: 'Full Text Search 설정/사용'
-authors: [jake]
-tags: [django, orm, full-text-search]
+authors: [ jake ]
+tags: [ django, orm, full-text-search ]
 ---
 
 ## ⭐ 참고 사항
 
-| 내용 |
-| --- |
-| '설정' 부분은 mysql 에 대한 적용 사항입니다 (Postgres 는 클래스를 정의하지 않아도 바로 사용이 가능합니다) |
+| 내용                                                                                                  |
+|-----------------------------------------------------------------------------------------------------|
+| '설정' 부분은 mysql 에 대한 적용 사항입니다 (Postgres 는 클래스를 정의하지 않아도 바로 사용이 가능합니다)                                |
 | • FULL TEXT Search 에 사용되는 쿼리는 select * from table match (col) against ('text*' in boolean mode) 입니다 |
-| • 해당 테이블의 컬럼에 FULL TEXT 가 적용되어있어야합니다 |
-
+| • 해당 테이블의 컬럼에 FULL TEXT 가 적용되어있어야합니다                                                                |
 
 ## 🐥 설정 방법
 

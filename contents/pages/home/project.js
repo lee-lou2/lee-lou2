@@ -18,8 +18,8 @@ export default function Project() {
         </div>
         <div className={styles.projectPanel}>
           <h1>미니 프로젝트</h1>
-          <div style={{ color: '#444444' }}>간단하지만 유용한 기능들을 앱으로 개발</div>
-          <br />
+          <div style={{color: '#444444'}}>간단하지만 유용한 기능들을 앱으로 개발</div>
+          <br/>
           <Flicking
             align="prev"
             circular={true}

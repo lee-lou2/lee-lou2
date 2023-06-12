@@ -16,11 +16,16 @@ import styles from './index.module.css'
 <div className={styles.installLayoutRight}>
 
 ### 1. Django 설치
+
 1. pip install django
+
 ### 2. 프로젝트 생성
+
 1. django-admin stratproject {project_name} [Option] .
     1. project_name = 원하는 프로젝트명
+
 ### 3. 앱 생성
+
 1. python manage.py startapp {app_name}
     1. app_name = 원하는 앱명
 2. settings.py 의 INSTALLED_APPS 에 추가
@@ -39,11 +44,14 @@ import styles from './index.module.css'
 <div className={styles.installLayoutRight}>
 
 ### 1. `project config`(settings) 폴더
+
 1. settings.py : 프로젝트 전체 설정 관리
 2. asgi.py : asgi 사용시 설정
 3. wsgi.py : wsgi 사용시 설정
 4. urls.py : 기본 라우터
+
 ### 2. `app` 폴더
+
 1. apps.py : app 기본 설정
 2. admin.py : admin 페이지 구성
 3. tests.py : test 코드
@@ -89,7 +97,9 @@ Django 3.0 버전부터 지원합니다.
 <div className={styles.installLayoutRight}>
 
 ### 1. DRF 설치
+
 1. pip install djangorestframework
+
 ### 2. settings 설정
 
 ```python
@@ -132,6 +142,7 @@ INSTALLED_APPS = [
 <div className={styles.installLayoutRight}>
 
 ### - 흐름
+
 1. *[사용자]*
 2. **미들웨어**
     1. request 설정
@@ -140,6 +151,7 @@ INSTALLED_APPS = [
 4. **미들웨어**
     1. 결과 값 정리
 5. *[사용자]*
+
 ### - 커스텀 미들웨어 : **재귀함수 구조**
 
 ```python

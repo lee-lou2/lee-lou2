@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import TextField from '@mui/material/TextField';
 import Button from "@mui/material/Button";
 import ServiceWorker from "@site/src/firebase-messaging-sw"
@@ -114,7 +114,7 @@ function sendSMS(apiServerHost) {
 }
 
 export default function TestWebPush() {
-  const { siteConfig } = useDocusaurusContext();
+  const {siteConfig} = useDocusaurusContext();
   const apiServerHost = siteConfig.customFields.API_SERVER_HOST;
   ServiceWorker();
   const [schedulerType, setSchedulerType] = useState(2);
@@ -131,8 +131,8 @@ export default function TestWebPush() {
   return (
     <div>
       <div>
-        <div style={{ marginBottom: '30px' }}>
-          <FormControl sx={{ m: 1, minWidth: 150 }} size="small">
+        <div style={{marginBottom: '30px'}}>
+          <FormControl sx={{m: 1, minWidth: 150}} size="small">
             <InputLabel id="scheduler-type-label">발송 형태</InputLabel>
             <Select
               labelId="scheduler-type-label"
@@ -145,29 +145,29 @@ export default function TestWebPush() {
               <MenuItem value="2">에약발송</MenuItem>
             </Select>
           </FormControl>
-          <div id="scheduler-type-value" style={{ display: "none" }}></div>
+          <div id="scheduler-type-value" style={{display: "none"}}></div>
           <div id="scheduler-detail" className={styles.scheduleDetail}>
             <div>
               <div>요일</div>
               <TextField id="scheduler-date" size="small" type="date"
-                defaultValue={new Date(new Date().getTime() + 9 * 60 * 60 * 1000).toISOString().slice(0, 10)} />
+                         defaultValue={new Date(new Date().getTime() + 9 * 60 * 60 * 1000).toISOString().slice(0, 10)}/>
             </div>
             <div>
               <div>시간</div>
               <TextField id="scheduler-time" size="small" type="time"
-                defaultValue={new Date().toLocaleTimeString('ko-kr', {
-                  hour12: false,
-                  hour: "numeric",
-                  minute: "numeric"
-                })} />
+                         defaultValue={new Date().toLocaleTimeString('ko-kr', {
+                           hour12: false,
+                           hour: "numeric",
+                           minute: "numeric"
+                         })}/>
             </div>
             <div>
               <div>전송 수</div>
-              <TextField id="scheduler-count" size="small" type="number" defaultValue="1" />
+              <TextField id="scheduler-count" size="small" type="number" defaultValue="1"/>
             </div>
             <div>
               <div>전송 주기</div>
-              <TextField id="scheduler-interval" size="small" type="number" defaultValue="5" inputProps={{ min: "5" }} />
+              <TextField id="scheduler-interval" size="small" type="number" defaultValue="5" inputProps={{min: "5"}}/>
             </div>
           </div>
         </div>
@@ -175,25 +175,31 @@ export default function TestWebPush() {
       <div id="notification-test-push">
         <h3>푸시 전송 테스트</h3>
         <div className={styles.notificationTestElements}>
-          <TextField className={styles.pushToken} id="firebase-token" size="small" disabled />
-          <Button variant="contained" onClick={() => { sendPush(apiServerHost) }}>푸시 전송</Button>
-          <TextField id="firebase-token-status" size="small" placeholder="전송 상태" disabled />
+          <TextField className={styles.pushToken} id="firebase-token" size="small" disabled/>
+          <Button variant="contained" onClick={() => {
+            sendPush(apiServerHost)
+          }}>푸시 전송</Button>
+          <TextField id="firebase-token-status" size="small" placeholder="전송 상태" disabled/>
         </div>
       </div>
       <div id="notification-test-email">
         <h3>이메일 전송 테스트</h3>
         <div className={styles.notificationTestElements}>
-          <TextField id="email" size="small" />
-          <Button variant="contained" onClick={() => { sendEmail(apiServerHost) }}>이메일 전송</Button>
-          <TextField id="email-status" size="small" placeholder="전송 상태" disabled />
+          <TextField id="email" size="small"/>
+          <Button variant="contained" onClick={() => {
+            sendEmail(apiServerHost)
+          }}>이메일 전송</Button>
+          <TextField id="email-status" size="small" placeholder="전송 상태" disabled/>
         </div>
       </div>
       <div id="notification-test-sms">
         <h3>문자 전송 테스트</h3>
         <div className={styles.notificationTestElements}>
-          <TextField id="phone" size="small" />
-          <Button variant="contained" onClick={() => { sendSMS(apiServerHost) }}>문자 전송</Button>
-          <TextField id="phone-status" size="small" placeholder="전송 상태" disabled />
+          <TextField id="phone" size="small"/>
+          <Button variant="contained" onClick={() => {
+            sendSMS(apiServerHost)
+          }}>문자 전송</Button>
+          <TextField id="phone-status" size="small" placeholder="전송 상태" disabled/>
         </div>
       </div>
     </div>

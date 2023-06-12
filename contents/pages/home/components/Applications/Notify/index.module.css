@@ -1,21 +1,21 @@
 .notifyElements {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
-.notifyElements>* {
-  width: 100%;
+.notifyElements > * {
+    width: 100%;
 }
 
 .notifyElementItems {
-  margin-bottom: 10px;
-  text-align: center;
-  color: #525252;
-  cursor: pointer;
+    margin-bottom: 10px;
+    text-align: center;
+    color: #525252;
+    cursor: pointer;
 }
 
 .notifyElementDescription {
-  color: #444444;
+    color: #444444;
 }

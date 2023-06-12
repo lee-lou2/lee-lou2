@@ -24,14 +24,16 @@ function requestChatGPTAPI(apiServerHost) {
 }
 
 export default function ChatGPTTest() {
-  const { siteConfig } = useDocusaurusContext();
+  const {siteConfig} = useDocusaurusContext();
   const apiServerHost = siteConfig.customFields.API_SERVER_HOST;
   return (
     <div>
       <h2>ChatGPT API 테스트</h2>
       <div className={styles.chatTestElements}>
-        <TextField id="chatgpt-request-body-api" label="질문" size="small" placeholder="질문을 입력해주세요" />
-        <Button variant="contained" onClick={() => { requestChatGPTAPI(apiServerHost) }}>입력</Button>
+        <TextField id="chatgpt-request-body-api" label="질문" size="small" placeholder="질문을 입력해주세요"/>
+        <Button variant="contained" onClick={() => {
+          requestChatGPTAPI(apiServerHost)
+        }}>입력</Button>
         <CodeBlock className={styles.chatTestResponseBoard}><span id="chatgpt-response-body-api">답변</span></CodeBlock>
       </div>
     </div>

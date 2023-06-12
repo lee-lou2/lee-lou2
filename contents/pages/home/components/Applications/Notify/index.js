@@ -58,7 +58,7 @@ function sendSMS(apiServerHost) {
 }
 
 export default function NotifySender() {
-  const { siteConfig } = useDocusaurusContext();
+  const {siteConfig} = useDocusaurusContext();
   const apiServerHost = siteConfig.customFields.API_SERVER_HOST;
   return (
     <>
@@ -68,19 +68,25 @@ export default function NotifySender() {
         <div className={styles.notifyElementItems}></div>
         <div className={styles.notifyElementItems}></div>
         <h3>✉️ 이메일 전송 테스트</h3>
-        <TextField id="email-sender" placeholder="이메일 주소" size="small" />
+        <TextField id="email-sender" placeholder="이메일 주소" size="small"/>
         <div className={styles.notifyElementItems}></div>
-        <Button variant="contained" onClick={() => { sendEmail(apiServerHost) }}>이메일 보내기</Button>
+        <Button variant="contained" onClick={() => {
+          sendEmail(apiServerHost)
+        }}>이메일 보내기</Button>
         <div className={styles.notifyElementItems}></div>
         <div className={styles.notifyElementItems}></div>
 
         <h3>💬 문자 전송 테스트</h3>
-        <TextField id="phone-sender" placeholder="휴대폰 번호" size="small" />
+        <TextField id="phone-sender" placeholder="휴대폰 번호" size="small"/>
         <div className={styles.notifyElementItems}></div>
-        <Button variant="contained" onClick={() => { sendSMS(apiServerHost) }}>문자 보내기</Button>
+        <Button variant="contained" onClick={() => {
+          sendSMS(apiServerHost)
+        }}>문자 보내기</Button>
         <div className={styles.notifyElementItems}></div>
         <div className={styles.notifyElementItems}></div>
-        <div className={styles.notifyElementItems} onClick={() => { location.href = '/docs/project/index/notifications/' }}>
+        <div className={styles.notifyElementItems} onClick={() => {
+          location.href = '/docs/project/index/notifications/'
+        }}>
           자세히보기
         </div>
       </div>

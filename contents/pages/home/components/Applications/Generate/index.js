@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import InputLabel from "@mui/material/InputLabel";
@@ -35,7 +35,7 @@ function generateVariableName(apiServerHost) {
 }
 
 export default function GenerateVariableName() {
-  const { siteConfig } = useDocusaurusContext();
+  const {siteConfig} = useDocusaurusContext();
   const apiServerHost = siteConfig.customFields.API_SERVER_HOST;
   const [caseType, setCaseType] = useState('카멜 케이스');
   const handleCaseChange = (event) => {
@@ -44,9 +44,9 @@ export default function GenerateVariableName() {
   return (
     <>
       <h2>💬 변수명 생성기</h2>
-      <br />
-      <TextField id="generate-input" placeholder="원하는 내용을 입력해주세요 :)" size="small" />
-      <FormControl sx={{ m: 1, minWidth: 150 }} size="small">
+      <br/>
+      <TextField id="generate-input" placeholder="원하는 내용을 입력해주세요 :)" size="small"/>
+      <FormControl sx={{m: 1, minWidth: 150}} size="small">
         <InputLabel>표기 방법</InputLabel>
         <Select
           labelId="generate-case-label"
@@ -59,8 +59,10 @@ export default function GenerateVariableName() {
           <MenuItem value={'스네이크 케이스'}>스네이크 케이스</MenuItem>
         </Select>
       </FormControl>
-      <Button variant="contained" onClick={() => { generateVariableName(apiServerHost) }}>생성하기</Button>
-      <TextField id="generate-output" size="small" disabled />
+      <Button variant="contained" onClick={() => {
+        generateVariableName(apiServerHost)
+      }}>생성하기</Button>
+      <TextField id="generate-output" size="small" disabled/>
     </>
   )
 }

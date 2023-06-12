@@ -1,12 +1,13 @@
 ---
 title: '자주 사용하는 명령 모음'
-authors: [jake]
-tags: [etc, command, linux, docker, python, go]
+authors: [ jake ]
+tags: [ etc, command, linux, docker, python, go ]
 ---
 
 ## 🚀 프로메테우스 & 그라파나 docker-compose(Golang Gin Metrics 기준)
 
 ### 👉 Prometheus Config
+
 ```yml
 ---
 global:
@@ -18,24 +19,26 @@ alerting:
 rule_files:
 
 scrape_configs:
-- job_name: lou2
-  static_configs:
-  - targets: ["api.lou2.kr"]
-  scheme: "https"
+  - job_name: lou2
+    static_configs:
+      - targets: [ "api.lou2.kr" ]
+    scheme: "https"
 ```
 
 ### 👉 Grafana Config
+
 ```yaml
 ---
 apiVersion: 1
 datasources:
-- name: Main
-  type: prometheus
-  url: http://prometheus:9090
-  isDefault: true
+  - name: Main
+    type: prometheus
+    url: http://prometheus:9090
+    isDefault: true
 ```
 
 ### 👉 Docker Compose
+
 ```yaml
 ---
 version: "3.9"
