@@ -4,6 +4,12 @@ import styles from "./home.module.css";
 export default function Keyword() {
   const contents = [
     {
+      keywords: ["python", "chatgpt", "openai", "function_call"],
+      title: "[Python] ChatGPT Function Call",
+      url: "2023/06/16/0030",
+      path: "/blog/backend/"
+    },
+    {
       keywords: ["go", "socket", "slack"],
       title: "[GO] 슬랙 소켓 모드",
       url: "2023/05/17/0015",

@@ -1,0 +1,93 @@
+---
+title: 'ChatGPT Function Call'
+authors: [ jake ]
+tags: [ python, chatgpt, openai, function_call ]
+---
+
+## 🐥 Function Call 예제
+
+```python
+import pprint
+import requests
+import openai
+import json
+
+
+# 사용한 토큰 수
+used_token = 0
+# API 키 설정
+openai.api_key = "YOUR_API_KEY"
+
+
+class Functions:
+    """함수를 모아놓은 클래스"""
+
+    @classmethod
+    def get_best_book(cls, category: str = "total", range: str = "day", rank: int = 1):
+        """도서 조회"""
+        url = f"https://api.co.kr/v1/best_seller?category={category}&range={range}&size=100&adult=0"
+        resp = requests.get(url)
+        book = resp.json().get("books")[rank - 1]
+        return conversation("아래 내용은 도서에 대한 정보야. 자연스럽게 문장으로 만들어줘." + str(book))
+
+
+def conversation(prompt: str):
+    """일반 대화"""
+    completion = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo-16k",
+        messages=[{"role": "user", "content": prompt}],
+    )
+    global used_token
+    used_token += completion.usage.prompt_tokens
+    return completion.choices[0].message.content
+
+
+def function_conversation(prompt: str):
+    """함수 대화"""
+    completion = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo-16k",
+        messages=[
+            {"role": "user", "content": prompt},
+        ],
+        functions=[
+            {
+                "name": "get_best_book",
+                "description": "인기 도서를 조회하는 함수",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "category": {
+                            "type": "string",
+                            "description": "도서의 카테고리를 선택해주세요",
+                            "default": "total",
+                            "enum": ["total", "healing", "story", "trend", "mylife", "intellectual"]
+                        },
+                        "range": {
+                            "type": "string",
+                            "description": "도서의 집계 기간을 선택해주세요",
+                            "default": "year",
+                            "enum": ["day", "week", "month", "year"]
+                        },
+                        "rank": {
+                            "type": "integer", 
+                            "description": "몇 번째 도서를 표시할지 지정",
+                            "max_value": 100
+                        },
+                    },
+                    "required": ["rank"],
+                },
+            }
+        ],
+        function_call="auto",
+    )
+    global used_token
+    used_token += completion.usage.prompt_tokens
+    reply_content = completion.choices[0].message
+    string_arguments = reply_content.to_dict()["function_call"]["arguments"]
+    arguments = json.loads(string_arguments)
+    return Functions.get_best_book(**arguments)
+
+prompt = "올해 두 번째로 인기있는 종합 도서 추천해줘"
+pprint.pprint(function_conversation(prompt))
+print(f"({used_token}개 토큰 사용)")
+```
