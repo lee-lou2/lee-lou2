@@ -71,7 +71,7 @@ const data = {
   ],
   '구도': [
     {
-      'prompt': 'at <*특정 대상>',
+      'prompt': 'at *특정 대상',
       'description': '*에게'
     },
     {
@@ -103,7 +103,7 @@ const data = {
       'description': '위'
     },
     {
-      'prompt': 'focus on <*신체부위나 물체,방향>',
+      'prompt': 'focus on *신체나 물체,방향',
       'description': '초점을 *에'
     },
     {
@@ -143,7 +143,7 @@ const data = {
       'description': '뒤에서'
     },
     {
-      'prompt': 'looking <*신체,물체,방향><br />through *',
+      'prompt': 'looking *신체, 물체, 방향<br />through *',
       'description': '시점을 *에'
     },
     {
