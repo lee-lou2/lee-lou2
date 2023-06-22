@@ -132,6 +132,11 @@ const config = {
                 sidebarId: "tutorialGoSidebar",
                 label: "고(GO)",
               },
+              {
+                type: "docSidebar",
+                sidebarId: "tutorialAISidebar",
+                label: "인공지능",
+              },
             ],
           },
           {

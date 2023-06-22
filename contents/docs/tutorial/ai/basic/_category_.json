@@ -1,0 +1,11 @@
+{
+  "label": "인공지능",
+  "position": 3,
+  "collapsible": true,
+  "collapsed": false,
+  "link": {
+    "type": "generated-index",
+    "title": "인공지능",
+    "description": "인공지능의 활용"
+  }
+}

@@ -1,0 +1,42 @@
+.ttiPrompt {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.ttiPrompt > div {
+    width: 100%;
+    margin: 10px;
+}
+
+.ttiTableBody {
+    background-color: #fff;
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+}
+
+.ttiTableHead1 {
+    width: 30%;
+}
+
+.ttiTableHead2 {
+    width: 70%;
+}
+
+.ttiTablePrompt {
+    cursor: pointer;
+}
+
+.promptBox {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px;
+    cursor: pointer;
+    min-height: 50px;
+}
+
+.promptBox:hover {
+    background-color: #f2f2f2;
+}
