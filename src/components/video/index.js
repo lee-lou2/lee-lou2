@@ -1,12 +1,12 @@
 import React from 'react';
-import styles from "./video.module.css";
+import styles from "./index.module.css";
 
-export default function Video() {
+export default function Index(props) {
   return (
     <div className={styles.container}>
       <iframe
-        src="https://www.youtube.com/embed/gSm96o3rMUE"
-        title="텍스트 이미지 생성"
+        src={props.src}
+        title={props.title}
         frameBorder="0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
         allowFullScreen
