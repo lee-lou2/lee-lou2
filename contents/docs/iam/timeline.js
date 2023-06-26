@@ -33,7 +33,7 @@ const timelineData = [
   - Pub/Sub 구조를 이용한 메시지 큐
 
 #### ⭐️ Notification 서버 구축(GO)
-- Gorutine 을 이용한 비동기 처리
+- Goroutine 을 이용한 비동기 처리
 - Channel 을 통한 내부 큐 활용
 - 스케쥴링 서비스 : GO Cron
 - 서비스
@@ -47,6 +47,12 @@ const timelineData = [
 #### ⭐️ AI 관련
 - 파인튜닝 : Lora
 - 모델 : LLaMa, Alpaca, GPT4ALL, bark
+
+#### ⭐️ 웨이팅 서비스
+- Golang 을 이용한 웨이팅 서비스 개발
+- QR 코드와 바코드를 이용해 직관적이고 간단한 서비스
+- 세션 등을 이용해 복잡한 절차 없이 사용자 인증
+- [**프로젝트 상세로 이동 🚀**](/docs/project/index/order-by/)
 
 #### ⭐️ Playwright, Selenium 를 이용한 웹 자동화
     `,

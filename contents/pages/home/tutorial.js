@@ -7,7 +7,7 @@ export default function Tutorial() {
   const tutorials = [
     {
       title: "Python(Django)",
-      description: "파이썬의 대표 웹 프레임워크 Django 에 대한 튜토리얼",
+      description: "파이썬의 대표 웹 프레임워크<br />Django 에 대한 튜토리얼",
       keywords: ["Django", "DRF", "Celery"],
       url: "/docs/category/파이썬python"
     },
@@ -16,6 +16,12 @@ export default function Tutorial() {
       description: "고에 대한 기본 튜토리얼<br />Gin 프레임워크를 이용한 튜토리얼",
       keywords: ["Gin", "gRPC", "Async"],
       url: "/docs/category/고golang"
+    },
+    {
+      title: "인공지능",
+      description: "인기 있거나 새로운 인공지능<br />기술들에 대한 튜토리얼",
+      keywords: ["Trend", "New", "AI"],
+      url: "/docs/category/인공지능"
     }
   ]
   return (
