@@ -42,7 +42,7 @@ function sendPush(apiServerHost) {
     },
     body: JSON.stringify({
       data: {
-        fmcTokens: [token],
+        fmc_tokens: [token],
         title: "[lou2] 푸시 전송 테스트",
         message: "메세지가 정상적으로 전달되었습니다."
       },
