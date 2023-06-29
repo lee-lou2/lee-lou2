@@ -12,14 +12,14 @@ const timelineData = [
     description: `
   ---
 
-#### ⭐️ SSO 서버 구축
+#### ⭐️⭐️ SSO 서버 구축
 - 프레임워크 : Django
 - 라이브러리 : \`django-oauth-toolkit\`, \`allauth\`
 - Grant Type : **Authorization Code**
 - ID Token(OIDC) 발급
 - [**프로젝트 상세로 이동 🚀**](/docs/project/index/sso/)
 
-#### ⭐️ GO API 서버 구축
+#### ⭐️⭐️⭐️ GO API 서버 구축
 - RestfulAPI : Gin 프레임워크
 - RPC : gRPC
 - Message Queue : RabbitMQ
@@ -32,7 +32,7 @@ const timelineData = [
   - Publisher, Consumer 구조를 이용한 메시지 큐
   - Pub/Sub 구조를 이용한 메시지 큐
 
-#### ⭐️ Notification 서버 구축(GO)
+#### ⭐️⭐️ Notification 서버 구축(GO)
 - Goroutine 을 이용한 비동기 처리
 - Channel 을 통한 내부 큐 활용
 - 스케쥴링 서비스 : GO Cron
@@ -48,23 +48,32 @@ const timelineData = [
 - 파인튜닝 : Lora
 - 모델 : LLaMa, Alpaca, GPT4ALL, bark
 
-#### ⭐️ 웨이팅 서비스
+#### ⭐️⭐️ 웨이팅 서비스
 - Golang 을 이용한 웨이팅 서비스 개발
 - QR 코드와 바코드를 이용해 직관적이고 간단한 서비스
 - 세션 등을 이용해 복잡한 절차 없이 사용자 인증
 - [**프로젝트 상세로 이동 🚀**](/docs/project/index/order-by/)
+
+#### ⭐️ 포트폴리오 홈페이지 개발
+- Docusaurus 를 이용한 사이트 구축
+- React, CSS, Javascript 를 이용한 커스터마이징
+
+#### ⭐️ 유튜브 운영
+- 개발 관련 유튜브 채널 운영
+- 문서로 제한적인 부분을 영상으로 보완
+- [**유튜브로 이동 🚀**](https://youtube.com/@dingco.lou2)
 
 #### ⭐️ Playwright, Selenium 를 이용한 웹 자동화
     `,
     tags: ["Django", "GO", "AWS", "Postgresql", "MongoDB", "Redis", "RabbitMQ", "React", "Docker", "k8s", "LLama"]
   },
   {
-    title: "밀리의 서재",
-    period: "2022년 9월 ~",
+    title: "**의 **",
+    period: "2022년 7월 ~",
     description: `
 ---
 
-#### ⭐️ 밀리 5.0 대규모 업데이트 개발
+#### ⭐️⭐️ 밀리 5.0 대규모 업데이트 개발
 - **피드**
   - 여러 콘텐츠를 한 곳에 표시
   - 데이터 : ElasticSearch
@@ -99,7 +108,7 @@ const timelineData = [
 - 라우터 클래스내 Unmanaged Table app_label 정리
 - 특정 API만 리플리카를 적용하는 기능 추가
 
-#### ⭐️ 출간 플랫폼 개발
+#### ⭐️⭐️ 출간 플랫폼 개발
 - 일반인이 작품을 만드는 서비스 개발
 - 작품 관련 CRUD API 개발
 - 캐싱을 이용한 성능 향상
@@ -107,12 +116,28 @@ const timelineData = [
 #### ⭐️ 콘텐츠 관리
 - DRM
   - NCG DRM 패키징
-  - Token 발급
+  - Token 생성 및 발급
 - 오디오 관리(ffmpg)
   - Meta 데이터를 이용한 오디오 병합
   - Python \`pydub\` 을 이용한 오디오 관리
 
-#### ⭐️ [예정] SSO(OAuth2.0)
+#### ⭐️⭐️ 챌린지 프로젝트 참여
+- 개별 챌린지 개발
+  - 집중해서 책 읽기
+  - 인생책 고르기
+  - 피드, 챌린지 시작 등
+- 챌린지 운영 관련 API 개발
+
+#### ⭐️⭐️⭐️ 신규 어플리케이션 준비
+- 전체적인 프로젝트 구조 설계
+  - Django, Celery 운영
+  - 폴더 구조 설계
+  - 환경 분리(local, develop, staging, production)
+  - MSA 고려하여 내외부 API 구분
+  - DB/캐싱 구조 설계
+  - Response 구조 설계
+- 라이브러리 개발, 선정 및 적용
+- 기술 공유, 프로젝트 관련 교육 진행
 
 ---
   `,
@@ -120,11 +145,11 @@ const timelineData = [
   },
   {
     title: "페이워치",
-    period: "2021년 9월 ~ 2022년 9월",
+    period: "2021년 9월 ~ 2022년 7월",
     description: `
 ---
 
-#### ⭐️ 회원 가입 프로세스 개선
+#### ⭐️⭐️ 회원 가입 프로세스 개선
 - 기존 프로세스 개선
   - [기존] 회사 관리자 / 근로자 구분하여 가입
   - [개선] 회사 관리자 없이 **근로자만 가입 할 수 있는 프로세스** 추가 (건강 보험 조회 API 를 이용하여 근로자 인증)
@@ -185,7 +210,7 @@ const timelineData = [
   - 지시 받은 업무에 대한 처리(사진 업로드 등) 기능
   - 반복 업무 및 특정일 업무 등 다양한 기간 활용
 
-#### ⭐️ 백오피스
+#### ⭐️⭐️ 백오피스
 - 통합 검색
   - 다양한 검색 조건을 만족할 수 있는 모듈 제작
   - 여러 데이터 조회에서 사용 할 수 있도록 범용적 구조
@@ -194,7 +219,7 @@ const timelineData = [
   - 일별로 진행되는 업무에 대한 기록
   - 개인 회고 짧게 작성
 
-#### ⭐️ CICD 구축
+#### ⭐️⭐️ CI/CD 구축
 - AWS CodePipeline : CodePipeline 을 통해 CICD 구성
 - CodeCommit : CodeCommit 저장소에 특정 브랜치 수정 후 PR > Push
 - AWS CodeBuild : CodeBuild 를 통해 Docker Image 빌드
@@ -218,7 +243,7 @@ const timelineData = [
 - AWS EC2 기본 서버 사용
 - 서버 내 Docker 를 이용한 MySQL 사용
 
-#### ⭐️ 스케쥴링 서비스
+#### ⭐️⭐️ 스케쥴링 서비스
 - Crontap 을 이용해 정기적인 스크립트 실행
 - Google Apps Script 를 이용해 기간 단위 연속된 API 호출
 - Celery Beat 를 이용해 Django 서비스 스케쥴링
@@ -228,7 +253,7 @@ const timelineData = [
 - letsencrypt-nginx-proxy 컨테이너 등을 이용해 라우팅 및 https 적용
 - Jenkins 를 이용해 배포 자동화
 
-#### ⭐️ Selenium 와 BS4 등 을 이용한 웹 자동화
+#### ⭐️⭐️⭐️ Selenium 와 BS4 등 을 이용한 웹 자동화
 - 각 판매처별 매출 일별 매출 정보 조회
 - 위탁 업체 포인트 전환 비용 입금 내역 확인 및 전환, 세금계산서 발행 등
 - 온라인에 등록된 미제휴 업체 탐색 기능 등
@@ -243,7 +268,7 @@ const timelineData = [
 - 외부에서 수집된 데이터를 이용해 ‘일별 매출 통합 관리’ 구글 시트 동기화
 - 데이터베이스에 저장된 내용을 특정 간격으로 구글시트에 업데이트
 
-#### ⭐️ **카페24 API** 를 이용한 자동화
+#### ⭐️⭐️ **카페24 API** 를 이용한 자동화
 - ‘배송중’인 주문건의 현재 배송 상태를 별도로 확인하여 업데이트
 - 고객 문의 중 특정 키워드가 포함된 문의가 등록되는 경우 메일 등 별도 메신저로 알람
 - 판매 내역을 받아와 백오피스로 전달하여 추이 분석에 사용
@@ -257,7 +282,7 @@ const timelineData = [
 - 같이 제품끼리 묶어 데이터베이스에 누적
 - 배송 형태 및 기타 요청 문구에따라 예외 처리
 
-#### ⭐️ **재고 관리**
+#### ⭐️⭐️ **재고 관리**
 - 바코드 인식기를 연결하여 재고 관리시 사용
 - 엑셀 및 구글시트와 연동하여 다양한 형태로 관리
 - 해외 발주 데이터 간소화
@@ -270,7 +295,7 @@ const timelineData = [
 - 암호화를 통해 공통 계정 관리
 (계정별 담당자 지정)
 
-#### ⭐️ **매장 관리**
+#### ⭐️⭐️⭐️ **매장 관리**
 - 매장 입 / 출고 내역 관리
 - 판매 내역 관리
 - 매출 및 카드 사용 내역 관리
