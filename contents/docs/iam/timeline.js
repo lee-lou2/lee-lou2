@@ -69,7 +69,7 @@ const timelineData = [
   },
   {
     title: "**의 **",
-    period: "2022년 7월 ~",
+    period: "2022년 8월 ~",
     description: `
 ---
 
@@ -145,7 +145,7 @@ const timelineData = [
   },
   {
     title: "페이워치",
-    period: "2021년 9월 ~ 2022년 7월",
+    period: "2021년 9월 ~ 2022년 8월",
     description: `
 ---
 
