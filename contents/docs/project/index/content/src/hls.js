@@ -16,7 +16,7 @@ function VideoPlayer({ src }) {
     }
   }, [src]);
 
-  return <video ref={videoRef} controls />;
+  return <video ref={videoRef} controls style={{ width: '100%' }} />;
 }
 
 export default function HLSStreaming() {
