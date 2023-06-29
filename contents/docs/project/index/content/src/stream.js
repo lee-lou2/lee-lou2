@@ -7,7 +7,7 @@ export default function Streaming() {
   return (
     <div>
       <video controls width={'100%'}>
-        <source src={apiServerHost + "/v1/content/video/stream/sample.mp4"} type="video/mp4"/>
+        <source src={apiServerHost + "/v1/content/video/stream/html5/sample.mp4"} type="video/mp4"/>
       </video>
     </div>
   );
