@@ -3,6 +3,14 @@ title: OrderBy
 sidebar_label: 웨이팅 서비스
 description: 매장 웨이팅 서비스
 sidebar_position: 6
+keywords:
+  - Golang
+  - Gin
+  - Sqlite3
+  - Web
+  - OrderBy
+  - 웨이팅
+  - 예약 관리
 ---
 
 import Layout from './src/orderby'
@@ -17,9 +25,9 @@ import Video from '@site/src/components/video'
 ## ⭐️ 스킬
 
 | 종류 | 내용                                     |
-| --- |----------------------------------------|
+|----|----------------------------------------|
 | 언어 | Golang(Gin), Javascript(Gin Templates) |
-| DB  | Sqlite3(테스트용)                          |
+| DB | Sqlite3(테스트용)                          |
 
 ## ⭐️ 테스트
 
@@ -37,6 +45,7 @@ import Video from '@site/src/components/video'
 <div>
 
 ### [ 매장 - 큐알코드 ]
+
 - 큐알 페이지에 접속해 매장 입구 또는 웨이팅 장소에 디바이스를 위치시킵니다.
 - 해당 큐알코드는 **예약 건별로 고유한 값**입니다. <br /> (예약이 완료되거나 만료되면 다른 링크로 전환됩니다)
 - 만료 등의 이유로 큐알코드 사용 제한시 하단의 새로고침으로 신규로 생성할 수 있습니다.
@@ -54,6 +63,7 @@ import Video from '@site/src/components/video'
 <div>
 
 ### [ 방문자 - 카메라 ]
+
 - 매장 입구 등에 위치한 큐알코드를 스캔하여 예약 페이지로 이동합니다.
 - 큐알코드를 스캔하는 순간 예약 순서가 확정됩니다.
 - 스캔한 휴대폰은 예약 신청 페이지로 이동됩니다. <br /> (순서는 확정된 상태라 아래 절차는 급하지 않게 처리하셔도됩니다.)
@@ -69,6 +79,7 @@ import Video from '@site/src/components/video'
 <div>
 
 ### [ 방문자 - 예약 신청 페이지 ]
+
 - 상단에 바코드, 하단엔 휴대폰 번호를 입력할 수 있는 칸이 있습니다.
 - 해당 페이지 접속시 방문자의 디바이스/세션 정보가 서버에 저장되며 방문자의 디바이스에는 세션 아이디가 저장됩니다. <br /> (이 정보들은 매장 입장시 예약 정보 확인을 위해 사용됩니다.)
 - 상단의 바코드는 매장 디바이스에 표시되는 카메라 부분에 바코드를 인식시킵니다.
@@ -87,6 +98,7 @@ import Video from '@site/src/components/video'
 <div>
 
 ### [ 매장 - 큐알코드 + 바코드 ]
+
 - 큐알코드가 있던 화면은 큐알코드가 작아지면서 상단으로 이동하고 하단에 바코드를 스캔할 수 있는 카메라가 표시됩니다.
 - 휴대폰에 있는 바코드를 인식시키면 다시 최초 큐알코드 페이지로 이동됩니다. <br />(이때 다른 큐알코드 링크로 전환됩니다.)
 
@@ -97,7 +109,6 @@ import Video from '@site/src/components/video'
 
 </div>
 </Layout>
-
 
 ## ⭐️ 관리자 페이지
 
