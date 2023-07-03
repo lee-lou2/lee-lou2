@@ -12,23 +12,21 @@
 
 .col1 {
     width: 50px;
-    flex: 1;
     text-align: center;
 }
 
 .col05Right {
     width: 25px;
-    flex: 0.5;
 }
 
 .col05Left {
     width: 25px;
-    flex: 0.5;
     border-right: 2px solid lightgray;
 }
 
 .col2 {
-    flex: 9;
+    flex: 7;
+    min-width: 50px;
 }
 
 .timelineIcon {
